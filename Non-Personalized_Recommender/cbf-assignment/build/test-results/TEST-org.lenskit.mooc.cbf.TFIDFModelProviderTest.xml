@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.lenskit.mooc.cbf.TFIDFModelProviderTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2018-01-31T03:43:12" hostname="phyan-e7450" time="0.948">
+  <properties/>
+  <testcase name="testItemThree" classname="org.lenskit.mooc.cbf.TFIDFModelProviderTest" time="0.919"/>
+  <testcase name="testItemOne" classname="org.lenskit.mooc.cbf.TFIDFModelProviderTest" time="0.012"/>
+  <testcase name="testItemTwo" classname="org.lenskit.mooc.cbf.TFIDFModelProviderTest" time="0.017"/>
+  <system-out><![CDATA[11:43:13.297 [Test worker] INFO  o.l.data.dao.file.StaticDataSource - deriving entity type EntityType[item] from EntityType[item-tag] (column TypedName[item: long])
+11:43:13.309 [Test worker] INFO  o.l.data.dao.file.StaticDataSource - deriving entity type EntityType[user] from EntityType[item-tag] (column TypedName[user: long])
+11:43:13.309 [Test worker] INFO  o.l.data.dao.file.StaticDataSource - deriving entity type EntityType[item] from EntityType[item-tag] (column TypedName[item: long])
+11:43:13.323 [Test worker] DEBUG o.l.d.e.EntityCollectionBuilder - built collection of 3 entities with type EntityType[item] and 2 indexes
+11:43:13.330 [Test worker] DEBUG o.l.d.e.EntityCollectionBuilder - built collection of 4 entities with type EntityType[item-tag] and 2 indexes
+11:43:13.330 [Test worker] DEBUG o.l.d.e.EntityCollectionBuilder - built collection of 0 entities with type EntityType[user] and 2 indexes
+11:43:13.333 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Building TF-IDF model
+11:43:13.350 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TF vectors for 3 items
+11:43:13.350 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TFIDF vectors for TF 1.0 IDF 0.4054651081081645
+11:43:13.350 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TFIDF vectors for TF 1.0 IDF 0.4054651081081645
+11:43:13.350 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TFIDF vectors for TF 1.0 IDF 1.0986122886681098
+11:43:13.351 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TFIDF vectors for TF 1.0 IDF 1.0986122886681098
+11:43:13.378 [Test worker] INFO  o.l.data.dao.file.StaticDataSource - deriving entity type EntityType[item] from EntityType[item-tag] (column TypedName[item: long])
+11:43:13.379 [Test worker] INFO  o.l.data.dao.file.StaticDataSource - deriving entity type EntityType[user] from EntityType[item-tag] (column TypedName[user: long])
+11:43:13.379 [Test worker] INFO  o.l.data.dao.file.StaticDataSource - deriving entity type EntityType[item] from EntityType[item-tag] (column TypedName[item: long])
+11:43:13.379 [Test worker] DEBUG o.l.d.e.EntityCollectionBuilder - built collection of 3 entities with type EntityType[item] and 2 indexes
+11:43:13.380 [Test worker] DEBUG o.l.d.e.EntityCollectionBuilder - built collection of 4 entities with type EntityType[item-tag] and 2 indexes
+11:43:13.380 [Test worker] DEBUG o.l.d.e.EntityCollectionBuilder - built collection of 0 entities with type EntityType[user] and 2 indexes
+11:43:13.380 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Building TF-IDF model
+11:43:13.380 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TF vectors for 3 items
+11:43:13.380 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TFIDF vectors for TF 1.0 IDF 0.4054651081081645
+11:43:13.380 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TFIDF vectors for TF 1.0 IDF 0.4054651081081645
+11:43:13.380 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TFIDF vectors for TF 1.0 IDF 1.0986122886681098
+11:43:13.381 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TFIDF vectors for TF 1.0 IDF 1.0986122886681098
+11:43:13.389 [Test worker] INFO  o.l.data.dao.file.StaticDataSource - deriving entity type EntityType[item] from EntityType[item-tag] (column TypedName[item: long])
+11:43:13.390 [Test worker] INFO  o.l.data.dao.file.StaticDataSource - deriving entity type EntityType[user] from EntityType[item-tag] (column TypedName[user: long])
+11:43:13.390 [Test worker] INFO  o.l.data.dao.file.StaticDataSource - deriving entity type EntityType[item] from EntityType[item-tag] (column TypedName[item: long])
+11:43:13.390 [Test worker] DEBUG o.l.d.e.EntityCollectionBuilder - built collection of 3 entities with type EntityType[item] and 2 indexes
+11:43:13.390 [Test worker] DEBUG o.l.d.e.EntityCollectionBuilder - built collection of 4 entities with type EntityType[item-tag] and 2 indexes
+11:43:13.390 [Test worker] DEBUG o.l.d.e.EntityCollectionBuilder - built collection of 0 entities with type EntityType[user] and 2 indexes
+11:43:13.390 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Building TF-IDF model
+11:43:13.391 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TF vectors for 3 items
+11:43:13.391 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TFIDF vectors for TF 1.0 IDF 0.4054651081081645
+11:43:13.391 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TFIDF vectors for TF 1.0 IDF 0.4054651081081645
+11:43:13.391 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TFIDF vectors for TF 1.0 IDF 1.0986122886681098
+11:43:13.391 [Test worker] INFO  o.l.mooc.cbf.TFIDFModelProvider - Computed TFIDF vectors for TF 1.0 IDF 1.0986122886681098
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
