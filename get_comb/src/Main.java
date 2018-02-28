@@ -10,6 +10,8 @@ public class Main{
 		for (Float tmp: prevOrig) {
 			prev.add(tmp);
 		}
+
+		if (targ < 0) return;
 		if (numArr.size() == 0 && targ > 0) return;
 		if (numArr.size() == 0 && targ == 0) {
 			for (float tmp: prevOrig) {
@@ -24,7 +26,6 @@ public class Main{
 		HasComb((float)(Math.round((targ-f)*100))/100,numArr, prev);
 		HasComb((float)(Math.round(targ*100))/100, numArr, prevOrig);
 	}
-	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		float targ = sc.nextFloat();
