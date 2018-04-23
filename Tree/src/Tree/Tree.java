@@ -2,6 +2,8 @@ package Tree;
 //import java.util.*;
 //import java.math.*;
 
+import java.util.*;
+
 public class Tree {
     public TreeNode root;
     int maxSum = -999999;
@@ -18,6 +20,27 @@ public class Tree {
         int lHeight = GetHeight(root.left);
         int rHeight = GetHeight(root.right);
         return (Math.abs(lHeight-rHeight) <= 1) && IsBalanced_Solution(root.left) && IsBalanced_Solution(root.right);
+    }
+
+    public boolean IsSymmetrical(TreeNode root) {
+        if (root == null) return true;
+//        if (root.left == null && root.right == null) return true;
+//        if (root.left == null || root.right == null) return false;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root.left);
+        q.offer(root.right);
+        while(!q.isEmpty()) {
+            TreeNode lNode = q.poll();
+            TreeNode rNode = q.poll();
+            if (lNode == null && rNode == null) continue;
+            if (lNode == null || rNode == null) return false;
+            if (lNode.key != rNode.key) return false;
+            q.offer(lNode.left);
+            q.offer(rNode.right);
+            q.offer(lNode.right);
+            q.offer(rNode.left);
+        }
+        return true;
     }
 
     public int MaxSubTree(TreeNode root) {
