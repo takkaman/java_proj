@@ -5,6 +5,21 @@ package Tree;
 public class Tree {
     public TreeNode root;
     int maxSum = -999999;
+
+    public int GetHeight(TreeNode root) {
+        if (root == null) return 0;
+        int lHeight = GetHeight(root.left);
+        int rHeight = GetHeight(root.right);
+        return (lHeight == 0 || rHeight == 0)? lHeight + rHeight + 1: Math.max(lHeight, rHeight) + 1;
+    }
+
+    public boolean IsBalanced_Solution(TreeNode root) {
+        if (root == null) return true;
+        int lHeight = GetHeight(root.left);
+        int rHeight = GetHeight(root.right);
+        return (Math.abs(lHeight-rHeight) <= 1) && IsBalanced_Solution(root.left) && IsBalanced_Solution(root.right);
+    }
+
     public int MaxSubTree(TreeNode root) {
         if (root == null) return 0;
         int leftSum = MaxSubTree(root.left);
