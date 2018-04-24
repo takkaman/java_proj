@@ -8,6 +8,13 @@ public class Tree {
     public TreeNode root;
     int maxSum = -999999;
 
+    public int CountNode(TreeNode root) {
+        if (root == null) return 0;
+        int lNum = CountNode(root.left);
+        int rNum = CountNode(root.right);
+        return lNum + rNum + 1;
+    }
+
     public int GetHeight(TreeNode root) {
         if (root == null) return 0;
         int lHeight = GetHeight(root.left);
@@ -53,15 +60,15 @@ public class Tree {
         return sum;
     }
 
-    public TreeNode reConstructBinaryTree(int [] pre,int [] in) {
+    public TreeNode ReConstructBinaryTree(int [] pre,int [] in) {
         if (pre.length == 0) return null;
         TreeNode root = new TreeNode(pre[0]);
         int i;
         for (i = 0; i < in.length; i++) {
             if (in[i] == pre[0]) break;
         }
-        root.left = reConstructBinaryTree(Arrays.copyOfRange(pre, 1, i+1), Arrays.copyOfRange(in, 0, i));
-        root.right = reConstructBinaryTree(Arrays.copyOfRange(pre, 1+i, pre.length), Arrays.copyOfRange(in, i+1, in.length));
+        root.left = ReConstructBinaryTree(Arrays.copyOfRange(pre, 1, i+1), Arrays.copyOfRange(in, 0, i));
+        root.right = ReConstructBinaryTree(Arrays.copyOfRange(pre, 1+i, pre.length), Arrays.copyOfRange(in, i+1, in.length));
 
         return root;
     }
@@ -75,6 +82,16 @@ public class Tree {
 
     public Tree(TreeNode root) {
         this.root = root;
+    }
+
+    public TreeNode BSTKthNode(TreeNode pRoot, int k)
+    {
+        if (pRoot == null) return null;
+        if (k <= 0) return null;
+        int lHeight = CountNode(pRoot.left);
+        if (lHeight > k - 1) return BSTKthNode(pRoot.left, k);
+        if (lHeight == k - 1) return pRoot;
+        return BSTKthNode(pRoot.right, k-lHeight-1);
     }
 
     public static void main(String args[]) {
