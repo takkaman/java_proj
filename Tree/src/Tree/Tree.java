@@ -7,6 +7,8 @@ import java.util.*;
 public class Tree {
     public TreeNode root;
     int maxSum = -999999;
+    public Stack<TreeNode> treePath = new Stack<>();
+    private Stack<TreeNode> tmpTreePath = new Stack<>();
 
     public int CountNode(TreeNode root) {
         if (root == null) return 0;
@@ -20,6 +22,19 @@ public class Tree {
         int lHeight = GetHeight(root.left);
         int rHeight = GetHeight(root.right);
         return (lHeight == 0 || rHeight == 0)? lHeight + rHeight + 1: Math.max(lHeight, rHeight) + 1;
+    }
+
+    public void DFS(TreeNode root) {
+        if (root == null) return;
+        this.tmpTreePath.push(root);
+//        System.out.println(tmpTreePath.size() + " " + treePath.size());
+        if (this.tmpTreePath.size() > this.treePath.size()) {
+            this.treePath = (Stack<TreeNode>) this.tmpTreePath.clone();
+        }
+        DFS(root.left);
+        DFS(root.right);
+        this.tmpTreePath.pop();
+        return;
     }
 
     public boolean IsBalanced_Solution(TreeNode root) {
@@ -145,8 +160,15 @@ public class Tree {
         p3.right = p7;
 
         Tree t = new Tree(p1);
-        t.PreOrder(p1);
+        // Print first deepest path
+        t.DFS(p1);
+        List<TreeNode> treePath = new ArrayList<>(t.treePath);
+        for (TreeNode tt: treePath) {
+            System.out.println(tt.key);
+        }
+
         System.out.println("======");
+        
         t.MaxSubTree(t.root);
         System.out.println(t.maxSum);
     }
