@@ -80,8 +80,39 @@ public class Tree {
         PreOrder(root.right);
     }
 
-    public Tree(TreeNode root) {
-        this.root = root;
+    public boolean HasSubtree(TreeNode root1,TreeNode root2) {
+        if (root1 == null || root2 == null) return false;
+        if (root1.key == root2.key) {
+            Queue<TreeNode> q1 = new LinkedList<>();
+            Queue<TreeNode> q2 = new LinkedList<>();
+            boolean result = true;
+            q1.offer(root1);
+            q2.offer(root2);
+            while(!q2.isEmpty()) {
+                TreeNode cmpNode1 = q1.poll();
+                TreeNode cmpNode2 = q2.poll();
+                if (cmpNode1 == null) {
+                    result = false;
+                    break;
+                }
+                if (cmpNode1.key != cmpNode2.key) {
+                    result = false;
+                    break;
+                }
+                if (cmpNode2.left != null) {
+                    q1.offer(cmpNode1.left);
+                    q2.offer(cmpNode2.left);
+                }
+                if (cmpNode2.right != null) {
+                    q1.offer(cmpNode1.right);
+                    q2.offer(cmpNode2.right);
+                }
+            }
+            if (result) {
+                return true;
+            }
+        }
+        return HasSubtree(root1.left, root2) || HasSubtree(root1.right, root2);
     }
 
     public TreeNode BSTKthNode(TreeNode pRoot, int k)
@@ -92,6 +123,10 @@ public class Tree {
         if (lHeight > k - 1) return BSTKthNode(pRoot.left, k);
         if (lHeight == k - 1) return pRoot;
         return BSTKthNode(pRoot.right, k-lHeight-1);
+    }
+
+    public Tree(TreeNode root) {
+        this.root = root;
     }
 
     public static void main(String args[]) {
