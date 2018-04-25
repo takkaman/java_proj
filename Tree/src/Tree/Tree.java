@@ -120,6 +120,15 @@ public class Tree {
         return BSTKthNode(pRoot.right, k-lHeight-1);
     }
 
+    public void Mirror(TreeNode root) {
+        if (root == null) return;
+        TreeNode tmp = root.left;
+        root.left = root.right;
+        root.right = tmp;
+        Mirror(root.left);
+        Mirror(root.right);
+    }
+
     public Tree(TreeNode root) {
         this.root = root;
     }
