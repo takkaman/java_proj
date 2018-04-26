@@ -89,7 +89,7 @@ public class AVLTree {
 
     public static void main(String args[]) {
         AVLTree avlTree = new AVLTree();
-        for (int i = 1; i <8 ; i++) {
+        for (int i = 1; i <= 18 ; i++) {
             avlTree.Insert(i);
 //            System.out.println(avlTree.root.key);
         }
