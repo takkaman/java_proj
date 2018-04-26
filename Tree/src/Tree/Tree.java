@@ -7,6 +7,8 @@ import java.util.*;
 public class Tree {
     public TreeNode root;
     int maxSum = -999999;
+    public Stack<TreeNode> treePath = new Stack<>();
+    private Stack<TreeNode> tmpTreePath = new Stack<>();
 
     public int CountNode(TreeNode root) {
         if (root == null) return 0;
@@ -20,6 +22,19 @@ public class Tree {
         int lHeight = GetHeight(root.left);
         int rHeight = GetHeight(root.right);
         return (lHeight == 0 || rHeight == 0)? lHeight + rHeight + 1: Math.max(lHeight, rHeight) + 1;
+    }
+
+    public void DFS(TreeNode root) {
+        if (root == null) return;
+        this.tmpTreePath.push(root);
+//        System.out.println(tmpTreePath.size() + " " + treePath.size());
+        if (this.tmpTreePath.size() > this.treePath.size()) {
+            this.treePath = (Stack<TreeNode>) this.tmpTreePath.clone();
+        }
+        DFS(root.left);
+        DFS(root.right);
+        this.tmpTreePath.pop();
+        return;
     }
 
     public boolean IsBalanced_Solution(TreeNode root) {
@@ -80,39 +95,19 @@ public class Tree {
         PreOrder(root.right);
     }
 
+    public boolean IsSubtree(TreeNode root1, TreeNode root2) {
+        if (root2 == null) return true;
+        if (root1 == null) return false;
+        if (root1.key == root2.key) {
+            return IsSubtree(root1.left, root2.left) && IsSubtree(root1.right, root2.right);
+        } else {
+            return false;
+        }
+    }
+
     public boolean HasSubtree(TreeNode root1,TreeNode root2) {
         if (root1 == null || root2 == null) return false;
-        if (root1.key == root2.key) {
-            Queue<TreeNode> q1 = new LinkedList<>();
-            Queue<TreeNode> q2 = new LinkedList<>();
-            boolean result = true;
-            q1.offer(root1);
-            q2.offer(root2);
-            while(!q2.isEmpty()) {
-                TreeNode cmpNode1 = q1.poll();
-                TreeNode cmpNode2 = q2.poll();
-                if (cmpNode1 == null) {
-                    result = false;
-                    break;
-                }
-                if (cmpNode1.key != cmpNode2.key) {
-                    result = false;
-                    break;
-                }
-                if (cmpNode2.left != null) {
-                    q1.offer(cmpNode1.left);
-                    q2.offer(cmpNode2.left);
-                }
-                if (cmpNode2.right != null) {
-                    q1.offer(cmpNode1.right);
-                    q2.offer(cmpNode2.right);
-                }
-            }
-            if (result) {
-                return true;
-            }
-        }
-        return HasSubtree(root1.left, root2) || HasSubtree(root1.right, root2);
+        return IsSubtree(root1, root2) || HasSubtree(root1.left, root2) || HasSubtree(root1.right, root2);
     }
 
     public TreeNode BSTKthNode(TreeNode pRoot, int k)
@@ -123,6 +118,15 @@ public class Tree {
         if (lHeight > k - 1) return BSTKthNode(pRoot.left, k);
         if (lHeight == k - 1) return pRoot;
         return BSTKthNode(pRoot.right, k-lHeight-1);
+    }
+
+    public void Mirror(TreeNode root) {
+        if (root == null) return;
+        TreeNode tmp = root.left;
+        root.left = root.right;
+        root.right = tmp;
+        Mirror(root.left);
+        Mirror(root.right);
     }
 
     public Tree(TreeNode root) {
@@ -145,8 +149,15 @@ public class Tree {
         p3.right = p7;
 
         Tree t = new Tree(p1);
-        t.PreOrder(p1);
+        // Print first deepest path
+        t.DFS(p1);
+        List<TreeNode> treePath = new ArrayList<>(t.treePath);
+        for (TreeNode tt: treePath) {
+            System.out.println(tt.key);
+        }
+
         System.out.println("======");
+
         t.MaxSubTree(t.root);
         System.out.println(t.maxSum);
     }
