@@ -1,6 +1,5 @@
 package AVLTree;
 
-
 public class AVLNode {
     int key;
     int height;
