@@ -442,17 +442,17 @@ public class AVLTree<T extends Comparable> implements Tree<T>{
 
         avlTree.printTree(avlTree.root);
 
-        System.out.println("findMin:"+avlTree.findMin());
-
-        System.out.println("findMax:"+avlTree.findMax());
-
-        System.out.println("15 exist or not : " + avlTree.contains(15) );
+//        System.out.println("findMin:"+avlTree.findMin());
+//
+//        System.out.println("findMax:"+avlTree.findMax());
+//
+//        System.out.println("15 exist or not : " + avlTree.contains(15) );
 
         System.out.println("先根遍历:"+avlTree.preOrder());
 
-        System.out.println("中根遍历:"+avlTree.inOrder());
-
-        System.out.println("后根遍历:"+avlTree.postOrder());
+//        System.out.println("中根遍历:"+avlTree.inOrder());
+//
+//        System.out.println("后根遍历:"+avlTree.postOrder());
 
     }
 
