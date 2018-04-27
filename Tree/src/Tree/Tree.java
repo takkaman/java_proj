@@ -95,6 +95,34 @@ public class Tree {
         PreOrder2(root.right);
     }
 
+    public static void PreOrder(TreeNode root) { // Non-recursive traverse
+        Stack<TreeNode> s = new Stack<>();
+
+
+    }
+
+    public static void InOrder2(TreeNode root) {
+        if (root == null) return;
+        InOrder2(root.left);
+        System.out.print(root.key+" ");
+        InOrder2(root.right);
+    }
+
+    public static void InOrder(TreeNode root) { // Non-recursive traverse
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode p = root;
+        while(p != null || !s.isEmpty()) {
+            if (p != null) {
+                s.push(p);
+                p = p.left;
+            } else {
+                p = s.pop();
+                System.out.print(p.key+" ");
+                p = p.right;
+            }
+        }
+    }
+
     public static void PostOrder2(TreeNode root) {
         if (root == null) return;
         PostOrder2(root.left);
@@ -124,10 +152,6 @@ public class Tree {
                 }
             }
         }
-    }
-
-    public static void InOrder2(TreeNode root) { // Non-recursive traverse
-
     }
 
     public boolean IsSubtree(TreeNode root1, TreeNode root2) {
@@ -190,9 +214,9 @@ public class Tree {
 //        for (TreeNode tt: treePath) {
 //            System.out.println(tt.key);
 //        }
-        t.PostOrder2(t.root);
+        t.InOrder2(t.root);
         System.out.println("\n======");
-        t.PostOrder(t.root);
+        t.InOrder(t.root);
 //        t.MaxSubTree(t.root);
 //        System.out.println(t.maxSum);
     }
