@@ -90,14 +90,24 @@ public class Tree {
     
     public static void PreOrder2(TreeNode root) {
         if (root == null) return;
-        System.out.println(root.key);
+        System.out.print(root.key+" ");
         PreOrder2(root.left);
         PreOrder2(root.right);
     }
 
     public static void PreOrder(TreeNode root) { // Non-recursive traverse
         Stack<TreeNode> s = new Stack<>();
-
+        TreeNode p = root;
+        while (p != null || !s.isEmpty()) {
+            if (p != null) {
+                s.push(p);
+                System.out.print(p.key+" ");
+                p = p.left;
+            } else {
+                p = s.pop();
+                p = p.right;
+            }
+        }
 
     }
 
@@ -214,9 +224,9 @@ public class Tree {
 //        for (TreeNode tt: treePath) {
 //            System.out.println(tt.key);
 //        }
-        t.InOrder2(t.root);
+        t.PreOrder2(t.root);
         System.out.println("\n======");
-        t.InOrder(t.root);
+        t.PreOrder(t.root);
 //        t.MaxSubTree(t.root);
 //        System.out.println(t.maxSum);
     }
