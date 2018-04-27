@@ -1,5 +1,7 @@
 package AVLTree;
 
+import java.time.chrono.Era;
+
 public class AVLTree {
     public AVLNode root;
 
@@ -47,6 +49,63 @@ public class AVLTree {
     }
 
     public AVLNode Erase(int data, AVLNode root) {
+        if (root == null) {
+            System.out.printf("Not found data %d in tree.\n", data);
+            return root;
+        }
+
+        if (root.key > data) {
+            root.left = Erase(data, root.left);
+            if (GetHeight(root.right) - GetHeight(root.left) > 1) {
+                if (GetHeight(root.right.left) > GetHeight(root.right.right)) {
+                    return RLRotate(root);
+                } else {
+                    return RRRotate(root);
+                }
+            }
+        } else if (root.key < data){
+            root.right = Erase(data, root.right);
+            if (GetHeight(root.left) - GetHeight(root.right) > 1) {
+                if (GetHeight(root.left.right) > GetHeight(root.left.left)) {
+                    return LRRotate(root);
+                } else {
+                    return LLRotate(root);
+                }
+            }
+        } else {
+            if (root.left != null && root.right != null) {
+                if (GetHeight(root.left) > GetHeight(root.right)) {
+                    AVLNode tmpNode = FindMax(root.left);
+                    root.key = tmpNode.key;
+                    root.left = Erase(root.key, root.left);
+                } else {
+                    AVLNode tmpNode = FindMin(root.right);
+                    root.key = tmpNode.key;
+                    root.right = Erase(root.key, root.right);
+                }
+            } else {
+                if (root.left == null && root.right == null) return null;
+                root = (root.left == null)? root.right: root.left;
+            }
+        }
+
+        root.height = Math.max(GetHeight(root.left), GetHeight(root.right)) + 1;
+        return root;
+    }
+
+    public AVLNode FindMax(AVLNode root) {
+        if (root == null) return null;
+        while (root.right != null) {
+            root = root.right;
+        }
+        return root;
+    }
+
+    public AVLNode FindMin(AVLNode root) {
+        if (root == null) return null;
+        while (root.left != null) {
+            root = root.left;
+        }
         return root;
     }
 
@@ -89,11 +148,12 @@ public class AVLTree {
 
     public static void main(String args[]) {
         AVLTree avlTree = new AVLTree();
-        for (int i = 1; i <= 18 ; i++) {
+        for (int i = 1; i < 18 ; i++) {
             avlTree.Insert(i);
 //            System.out.println(avlTree.root.key);
         }
-
+        avlTree.Erase(11);
+        avlTree.Erase(8);
         avlTree.PreOrder(avlTree.root);
         System.out.println("======");
     }
