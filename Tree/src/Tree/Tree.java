@@ -88,11 +88,46 @@ public class Tree {
         return root;
     }
     
-    public static void PreOrder(TreeNode root) {
+    public static void PreOrder2(TreeNode root) {
         if (root == null) return;
         System.out.println(root.key);
-        PreOrder(root.left);
-        PreOrder(root.right);
+        PreOrder2(root.left);
+        PreOrder2(root.right);
+    }
+
+    public static void PostOrder2(TreeNode root) {
+        if (root == null) return;
+        PostOrder2(root.left);
+        PostOrder2(root.right);
+        System.out.print(root.key+ " ");
+    }
+
+    public static void PostOrder(TreeNode root) { // Non-recursive traverse
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode p = root, pre = null;
+
+        while (p != null || !s.isEmpty()) {
+            if (p != null) {
+                s.push(p);
+                p = p.left;
+            } else {
+                p = s.peek();
+                if (p.right != null && p.right != pre) {
+                    p = p.right;
+                    s.push(p);
+                    p = p.left;
+                } else {
+                    p = s.pop();
+                    System.out.print(p.key+" ");
+                    pre = p;
+                    p = null;
+                }
+            }
+        }
+    }
+
+    public static void InOrder2(TreeNode root) { // Non-recursive traverse
+
     }
 
     public boolean IsSubtree(TreeNode root1, TreeNode root2) {
@@ -150,15 +185,15 @@ public class Tree {
 
         Tree t = new Tree(p1);
         // Print first deepest path
-        t.DFS(p1);
-        List<TreeNode> treePath = new ArrayList<>(t.treePath);
-        for (TreeNode tt: treePath) {
-            System.out.println(tt.key);
-        }
-
-        System.out.println("======");
-
-        t.MaxSubTree(t.root);
-        System.out.println(t.maxSum);
+//        t.DFS(p1);
+//        List<TreeNode> treePath = new ArrayList<>(t.treePath);
+//        for (TreeNode tt: treePath) {
+//            System.out.println(tt.key);
+//        }
+        t.PostOrder2(t.root);
+        System.out.println("\n======");
+        t.PostOrder(t.root);
+//        t.MaxSubTree(t.root);
+//        System.out.println(t.maxSum);
     }
 }
