@@ -9,6 +9,9 @@ public class Tree {
     int maxSum = -999999;
     public Stack<TreeNode> treePath = new Stack<>();
     private Stack<TreeNode> tmpTreePath = new Stack<>();
+    private ArrayList<ArrayList<Integer>> sumPath = new ArrayList<>();
+    private Stack<Integer> tmpSumPath = new Stack<>();
+    private int tmpSumVal = 0;
 
     public int CountNode(TreeNode root) {
         if (root == null) return 0;
@@ -26,15 +29,48 @@ public class Tree {
 
     public void DFS(TreeNode root) {
         if (root == null) return;
+        System.out.println(root.key+" ");
+        DFS(root.left);
+        DFS(root.right);
+
+        return;
+    }
+
+    public void DeepestPath(TreeNode root) {
+        if (root == null) return;
         this.tmpTreePath.push(root);
 //        System.out.println(tmpTreePath.size() + " " + treePath.size());
         if (this.tmpTreePath.size() > this.treePath.size()) {
             this.treePath = (Stack<TreeNode>) this.tmpTreePath.clone();
         }
-        DFS(root.left);
-        DFS(root.right);
+        DeepestPath(root.left);
+        DeepestPath(root.right);
         this.tmpTreePath.pop();
         return;
+    }
+
+    public void DFSFindPath(TreeNode root, int target) {
+        if (root == null) return;
+        this.tmpSumPath.push(root.key);
+        this.tmpSumVal += root.key;
+
+        DFSFindPath(root.left, target);
+        DFSFindPath(root.right, target);
+
+        if (root.left == null && root.right == null) { // leaf node, check sum
+            if (this.tmpSumVal == target) {
+                this.sumPath.add(new ArrayList<>(tmpSumPath));
+            }
+        }
+
+        this.tmpSumPath.pop();
+        this.tmpSumVal -= root.key;
+        return;
+    }
+
+    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root,int target) {
+        DFSFindPath(root, target);
+        return this.sumPath;
     }
 
     public boolean IsBalanced_Solution(TreeNode root) {
@@ -219,14 +255,15 @@ public class Tree {
 
         Tree t = new Tree(p1);
         // Print first deepest path
-//        t.DFS(p1);
+//        t.DFSFindPath(p1, 3);
+        t.DFS(p1);
 //        List<TreeNode> treePath = new ArrayList<>(t.treePath);
 //        for (TreeNode tt: treePath) {
 //            System.out.println(tt.key);
 //        }
-        t.PreOrder2(t.root);
+//        t.PreOrder2(t.root);
         System.out.println("\n======");
-        t.PreOrder(t.root);
+//        t.PreOrder(t.root);
 //        t.MaxSubTree(t.root);
 //        System.out.println(t.maxSum);
     }
