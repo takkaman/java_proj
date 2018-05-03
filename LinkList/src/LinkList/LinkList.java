@@ -17,7 +17,8 @@ public class LinkList {
             p = p.next;
         }
         p = pHead;
-        while (m.get(p.val) > 1 && p != null) {
+        while (p != null) {
+            if (m.get(p.val) == 1) break;
             p = p.next;
         }
         if (p == null) return null;
