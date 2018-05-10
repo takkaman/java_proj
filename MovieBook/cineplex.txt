@@ -1,0 +1,184 @@
+{"cineplex":
+    [
+        {
+            "name":"St Kilda",
+            "movies": 
+                [
+                    {
+                        name: "Faust", 
+                        time: "9:00 am", 
+                        date: "4/20",
+                        seats: 20,
+                    }, 
+                    {
+                        name: "Carmen", 
+                        time: "11:30 am", 
+                        date: "4/19",
+                        seats: 18,
+                    }, 
+                    {
+                        name: "Othello", 
+                        time: "2:30 pm", 
+                        date: "4/17",
+                        seats: 16,
+                    }, 
+                    {
+                        name: "Turandot", 
+                        time: "5:00 pm", 
+                        date: "4/18",
+                        seats: 12,
+                    }, 
+                    {
+                        name: "Camellia", 
+                        time: "7:00 pm", 
+                        date: "4/16",
+                        seats: 12,
+                    },                     
+                ],
+        },
+        {
+            "name":"Fitzroy",
+            "movies": 
+                [
+                    {
+                        name: "Carmen", 
+                        time: "9:00 am", 
+                        date: "4/20",
+                        seats: 17,
+                    }, 
+                    {
+                        name: "Faust", 
+                        time: "11:30 am", 
+                        date: "4/19",
+                        seats: 16,
+                    }, 
+                    {
+                        name: "Othello", 
+                        time: "2:30 pm", 
+                        date: "4/17",
+                        seats: 0,
+                    }, 
+                    {
+                        name: "Camellia", 
+                        time: "6:00 pm", 
+                        date: "4/18",
+                        seats: 12,
+                    }, 
+                    {
+                        name: "Turandot", 
+                        time: "9:00 pm", 
+                        date: "4/16",
+                        seats: 1,
+                    },                     
+                ],
+        },
+        {
+            "name":"Bourne",
+            "movies": 
+                [
+                    {
+                        name: "Carmen", 
+                        time: "9:00 am", 
+                        date: "4/20",
+                        seats: 17,
+                    }, 
+                    {
+                        name: "Faust", 
+                        time: "11:30 am", 
+                        date: "4/19",
+                        seats: 16,
+                    }, 
+                    {
+                        name: "Othello", 
+                        time: "2:30 pm", 
+                        date: "4/17",
+                        seats: 0,
+                    }, 
+                    {
+                        name: "Camellia", 
+                        time: "6:00 pm", 
+                        date: "4/18",
+                        seats: 12,
+                    }, 
+                    {
+                        name: "Turandot", 
+                        time: "9:00 pm", 
+                        date: "4/16",
+                        seats: 1,
+                    },                     
+                ],
+        },
+        {
+            "name":"Sunshine",
+            "movies": 
+                [
+                    {
+                        name: "Carmen", 
+                        time: "9:00 am", 
+                        date: "4/20",
+                        seats: 17,
+                    }, 
+                    {
+                        name: "Faust", 
+                        time: "11:30 am", 
+                        date: "4/19",
+                        seats: 16,
+                    }, 
+                    {
+                        name: "Othello", 
+                        time: "2:30 pm", 
+                        date: "4/17",
+                        seats: 0,
+                    }, 
+                    {
+                        name: "Camellia", 
+                        time: "6:00 pm", 
+                        date: "4/18",
+                        seats: 12,
+                    }, 
+                    {
+                        name: "Turandot", 
+                        time: "9:00 pm", 
+                        date: "4/16",
+                        seats: 1,
+                    },                     
+                ],
+        },
+        {
+            "name":"Lilydale",
+            "movies": 
+                [
+                    {
+                        name: "Carmen", 
+                        time: "9:00 am", 
+                        date: "4/20",
+                        seats: 17,
+                    }, 
+                    {
+                        name: "Faust", 
+                        time: "11:30 am", 
+                        date: "4/19",
+                        seats: 16,
+                    }, 
+                    {
+                        name: "Othello", 
+                        time: "2:30 pm", 
+                        date: "4/17",
+                        seats: 0,
+                    }, 
+                    {
+                        name: "Camellia", 
+                        time: "6:00 pm", 
+                        date: "4/18",
+                        seats: 12,
+                    }, 
+                    {
+                        name: "Turandot", 
+                        time: "9:00 pm", 
+                        date: "4/16",
+                        seats: 1,
+                    },                     
+                ],
+        }                        
+    ]
+}
