@@ -273,7 +273,7 @@ public class MovieBook {
                 System.out.println("Email not valid.\nEnter your email: ");
                 email = String.valueOf(sc.nextLine());
             }
-            System.out.println("Enter your suburb: ");
+            System.out.println("Please enter customer's suburb: ");
             String suburb = String.valueOf(sc.nextLine());
             for (Movie mv: validMovies) {
                 if (mv.seats > 0) {
@@ -382,7 +382,7 @@ public class MovieBook {
                 System.out.println("Email not valid.\nEnter your email: ");
                 email = String.valueOf(sc.nextLine());
             }
-            System.out.println("Enter your suburb: ");
+            System.out.println("Please enter customer's suburb: ");
             String suburb = String.valueOf(sc.nextLine());
             for (Movie mv: validMovies) {
                 if (mv.seats > 0) {
@@ -406,14 +406,14 @@ public class MovieBook {
     }
 
     public static void QueryBooking() {
-        System.out.println("Please enter your email or 0 to return:");
+        System.out.println("Please enter customer's email or 0 to return:");
         Scanner sc = new Scanner(System.in);
         String email = String.valueOf(sc.nextLine());
         String[] choices;
         int i = 1;
         while(!emailTickMap.containsKey(email) && email.compareTo("0") != 0) {
             System.out.println("Empty search result.");
-            System.out.println("Please enter your email or 0 to return:");
+            System.out.println("Please enter customer's email or 0 to return:");
             email = String.valueOf(sc.nextLine());
         }
         if (email.compareTo("0") == 0) {
