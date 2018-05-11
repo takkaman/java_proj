@@ -440,26 +440,29 @@ public class MovieBook {
 //        List<Ticket> validTickets = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
         String[] choices;
-
+        List<Ticket> validTicket = new ArrayList<>();
         System.out.print("Please enter Ticket number:");
         choices = String.valueOf(sc.nextLine()).split(" ");
         for (String s: choices) {
             try {
                 int tkId = Integer.valueOf(s)-1;
+//                System.out.println(tkId);
                 if (tkId < 0 || tkId > maxNum) {
-                    //System.out.println("Invalid choice "+s+", skip.");
+                    System.out.println("Invalid choice "+tkId+", skip.");
                     continue;
                 }
                 Ticket tk = tkList.get(tkId);
-//                validTickets.add(tk);
+                validTicket.add(tk);
                 tk.movie.seats++;
-                tkList.remove(tk);
                 int id = tkId+1;
                 System.out.println("Ticket "+id+": Movie"+tk.movie.name + " at " + tk.movie.time + " on " + tk.movie.date+ " at " + tk.movie.cineName +" is cancelled. ");
             } catch (Exception e) {
 //                System.out.println("Invalid choice "+s+", skip.");
                 continue;
             }
+        }
+        for (Ticket tk: validTicket) {
+            tkList.remove(tk);
         }
     }
 
