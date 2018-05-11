@@ -154,9 +154,14 @@ public class MovieBook {
         }
     }
 
+/*
+========================
+== Search by Movie ==
+========================
+*/
     public static void ShowAllMovies() {
         int i = 1;
-        for (String movName: movieCineMap.keySet()) {
+        for (String movName: movieList) {
             System.out.println(i+" : "+movName);
             i++;
         }
@@ -168,23 +173,87 @@ public class MovieBook {
 
     // show all cineplex playing selected movie
     public static void ShowAllMovieCineplex(String movName) {
-        int i = 1;
-        System.out.println("***Movie: "+movName+"***");
-        for (Cinema cine: movieCineMap.get(movName)) {
-            Movie mv = cine.getMovie(movName);
-            System.out.println(i+" : " + cine.name+" on " + mv.time+" on " + mv.date+" with Available seats: " + mv.seats);
-            i++;
-        }
-        System.out.print("Please select one movie to book or enter 0 to return to main menu:");
         Scanner sc = new Scanner(System.in);
-        String choice = String.valueOf(sc.nextLine());
-        while (choice.compareTo("0") != 0) {
+        String[] choices;
+        List<Cinema> cineList = movieCineMap.get(movName);
+
+        boolean proceed = true;
+        while (proceed) {
+            int i = 1;
+            System.out.println("***Movie: " + movName + "***");
+            for (Cinema cine : cineList) {
+                Movie mv = cine.getMovie(movName);
+                System.out.println(i + " : " + cine.name + " on " + mv.time + " on " + mv.date + " with Available seats: " + mv.seats);
+                i++;
+            }
             System.out.print("Please select one movie to book or enter 0 to return to main menu:");
-            choice = String.valueOf(sc.nextLine());
+            try {
+                choices = String.valueOf(sc.nextLine()).split(" ");
+                if (choices.length == 1) {
+                    System.out.println(Integer.valueOf(choices[0]));
+                    int input = Integer.valueOf(choices[0]);
+                    if (input < 0 || input > i - 1) {
+                        continue;
+                    } else {
+                        if (input != 0) {
+                            System.out.print("Please select one movie to book or enter 0 to return to main menu:");
+                            BookMoviesPerCine(movName, cineList, choices);
+                        }
+                        break;
+                    }
+                } else {
+                    BookMoviesPerCine(movName, cineList, choices);
+                    break;
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input.");
+                continue;
+            }
         }
         MainEntry();
     }
 
+    public static void BookMoviesPerCine(String movName, List<Cinema> cineList, String[] choices) {
+        int maxId = cineList.size();
+
+        List<Movie> validMovies = new ArrayList<>();
+        for (String s: choices) {
+            try {
+                int movId = Integer.valueOf(s)-1;
+                if (movId < 0 || movId > maxId) {
+                    System.out.println("Invalid choice "+s+", skip.");
+                    continue;
+                }
+                validMovies.add(cineList.get(movId).getMovie(movName));
+            } catch (Exception e) {
+                System.out.println("Invalid choice "+s+", skip.");
+            }
+        }
+        System.out.println("Confirm to book below movies:");
+        for (Movie mv: validMovies) {
+            System.out.println(mv.name+" on " + mv.time+" on " + mv.date+" with Available seats: " + mv.seats);
+        }
+        System.out.println("Yes/No: ");
+        Scanner sc = new Scanner(System.in);
+        String choice = String.valueOf(sc.nextLine());
+        if (choice.compareTo("Yes") == 0) {
+            for (Movie mv: validMovies) {
+                if (mv.seats > 0) {
+                    System.out.println("Book Movie: "+mv.name+" success.");
+                    mv.seats--;
+                } else {
+                    System.out.println("Book Movie: "+mv.name+" fail, there is no more available seats");
+                }
+            }
+        } else {
+            ShowAllMovieCineplex(movName);
+        }
+    }
+/*
+========================
+== Search by Cineplex ==
+========================
+*/
 
     public static void ShowAllCineplex() {
         int i = 1;
@@ -200,18 +269,18 @@ public class MovieBook {
 
     // show all movies in selected cineplex
     public static void ShowAllCineplexMovie(Cinema cine) {
-        int i = 1;
-        System.out.println("***Cinema: "+cine.name+"***");
-//        System.out.println(cine.cineMovieList.size());
-        for (Movie mv: cine.cineMovieList) {
-//            Movie mv1 = cine.getMovie(mv.name);
-            System.out.println(i+" : " + mv.name+" on " + mv.time+" on " + mv.date+" with Available seats: " + mv.seats);
-            i++;
-        }
         Scanner sc = new Scanner(System.in);
         String[] choices;
         boolean proceed = true;
         while (proceed) {
+            int i = 1;
+            System.out.println("***Cinema: "+cine.name+"***");
+//        System.out.println(cine.cineMovieList.size());
+            for (Movie mv: cine.cineMovieList) {
+//            Movie mv1 = cine.getMovie(mv.name);
+                System.out.println(i+" : " + mv.name+" on " + mv.time+" on " + mv.date+" with Available seats: " + mv.seats);
+                i++;
+            }
             System.out.print("Please select one movie to book or enter 0 to return to main menu:");
             try {
                 choices = String.valueOf(sc.nextLine()).split(" ");
@@ -221,23 +290,58 @@ public class MovieBook {
                     if (input < 0 || input >i - 1) {
                         continue;
                     } else {
-                        if (input == 0) {
-                            MainEntry();
+                        if (input != 0) {
+                            System.out.print("Please select one movie to book or enter 0 to return to main menu:");
+                            BookMovies(cine, cine.cineMovieList, choices);
                         }
-                        BookMovies(cine.cineMovieList, choices);
+                        break;
                     }
                 } else {
-                    BookMovies(cine.cineMovieList, choices);
+                    BookMovies(cine, cine.cineMovieList, choices);
+                    break;
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input.");
                 continue;
             }
         }
+        MainEntry();
     }
 
-    public static void BookMovies(List<Movie> movieList, String[] choices) {
-        System.out.println("Enter movie booking");
+    public static void BookMovies(Cinema cine, List<Movie> movieList, String[] choices) {
+        int maxId = movieList.size();
+        List<Movie> validMovies = new ArrayList<>();
+        for (String s: choices) {
+            try {
+                int movId = Integer.valueOf(s)-1;
+                if (movId < 0 || movId > maxId) {
+                    System.out.println("Invalid choice "+s+", skip.");
+                    continue;
+                }
+                validMovies.add(movieList.get(movId));
+            } catch (Exception e) {
+                System.out.println("Invalid choice "+s+", skip.");
+            }
+        }
+        System.out.println("Confirm to book below movies:");
+        for (Movie mv: validMovies) {
+            System.out.println(mv.name+" on " + mv.time+" on " + mv.date+" with Available seats: " + mv.seats);
+        }
+        System.out.println("Yes/No: ");
+        Scanner sc = new Scanner(System.in);
+        String choice = String.valueOf(sc.nextLine());
+        if (choice.compareTo("Yes") == 0) {
+            for (Movie mv: validMovies) {
+                if (mv.seats > 0) {
+                    System.out.println("Book Movie: "+mv.name+" success.");
+                    mv.seats--;
+                } else {
+                    System.out.println("Book Movie: "+mv.name+" fail, there is no more available seats");
+                }
+            }
+        } else {
+            ShowAllCineplexMovie(cine);
+        }
     }
 
 
@@ -265,7 +369,5 @@ public class MovieBook {
         System.out.println("===========================================\n===== Welcome to movie booking system =====\n===========================================");
         UserLogin();
         MainEntry();
-        // SearchByMovie();
-        // SearchByCineplex();
     }
 }
