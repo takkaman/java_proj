@@ -261,13 +261,13 @@ public class MovieBook {
         }
         System.out.println("Confirm to book below movies:");
         for (Movie mv: validMovies) {
-            System.out.println(mv.name+" on " + mv.time+" on " + mv.date+" with Available seats: " + mv.seats);
+            System.out.println("Movie \""+mv.name+"\" at " + mv.time+" on " + mv.date+" at cineplex \""+mv.cineName+"\" has "+ mv.seats +" available seats.");
         }
         System.out.println("Yes/No: ");
         Scanner sc = new Scanner(System.in);
         String choice = String.valueOf(sc.nextLine());
         if (choice.compareTo("Yes") == 0) {
-            System.out.println("Enter your email: ");
+            System.out.println("Please enter customer's email or 0 to return: ");
             String email = String.valueOf(sc.nextLine());
             while (!ValidEmail(email)) {
                 System.out.println("Email not valid.\nEnter your email: ");
@@ -277,7 +277,7 @@ public class MovieBook {
             String suburb = String.valueOf(sc.nextLine());
             for (Movie mv: validMovies) {
                 if (mv.seats > 0) {
-                    System.out.println("Book Movie: "+mv.name+" success.");
+                    System.out.println("One ticket for Movie \""+mv.name+"\" at " + mv.time+" on " + mv.date+" at cineplex \""+mv.cineName+"\" is successfully booked.");
                     mv.seats--;
                     Ticket tk = new Ticket(email, mv, suburb);
                     if (emailTickMap.containsKey(email)) {
@@ -370,7 +370,7 @@ public class MovieBook {
         }
         System.out.println("Confirm to book below movies:");
         for (Movie mv: validMovies) {
-            System.out.println(mv.name+" on " + mv.time+" on " + mv.date+" with Available seats: " + mv.seats);
+            System.out.println("Movie \""+mv.name+"\" on " + mv.time+" on " + mv.date+" at cineplex \""+mv.cineName+"\" has "+ mv.seats +" available seats.");
         }
         System.out.println("Yes/No: ");
         Scanner sc = new Scanner(System.in);
@@ -386,7 +386,7 @@ public class MovieBook {
             String suburb = String.valueOf(sc.nextLine());
             for (Movie mv: validMovies) {
                 if (mv.seats > 0) {
-                    System.out.println("Book Movie: "+mv.name+" success.");
+                    System.out.println("One ticket for Movie \""+mv.name+"\" on " + mv.time+" on " + mv.date+" at cineplex \""+mv.cineName+"\" is successfully booked.");
                     mv.seats--;
                     Ticket tk = new Ticket(email, mv, suburb);
                     if (emailTickMap.containsKey(email)) {
@@ -419,70 +419,47 @@ public class MovieBook {
         if (email.compareTo("0") == 0) {
             MainEntry();
         } else if (emailTickMap.containsKey(email)) {
-            System.out.println("Searched below booking records:");
+            System.out.println("Ticket booking record for Customer with "+email+" is below:");
             List<Ticket> tl = emailTickMap.get(email);
             for (Ticket tk: tl) {
-                System.out.println(i + " : " + tk.movie.name + " in " + tk.movie.cineName + " on " + tk.movie.time + " on " + tk.movie.date);
+                System.out.println(i + " : " + "Movie \""+tk.movie.name+"\" at " + tk.movie.time+" on " + tk.movie.date+" at cineplex \""+tk.movie.cineName);
                 i++;
             }
-            boolean proceed = true;
-            while (proceed) {
-                System.out.print("Please select movie(s) to book or enter 0 to return to main menu:");
-                try {
-                    choices = String.valueOf(sc.nextLine()).split(" ");
-                    if (choices.length == 1) {
-//                    System.out.println(Integer.valueOf(choices[0]));
-                        int input = Integer.valueOf(choices[0]);
-                        if (input < 0 || input >i - 1) {
-                            continue;
-                        } else {
-                            if (input != 0) {
-                                CancelBook(tl, choices);
-                            }
-                            break;
-                        }
-                    } else {
-                        CancelBook(tl, choices);
-                        break;
-                    }
-                } catch (Exception e) {
-                    System.out.println("Invalid input.");
-                    continue;
-                }
+            System.out.println("Do you want to delete the booking tickets(s) for this Customer?\nYes - Confirm\nNo - Go to main menu");
+            sc = new Scanner(System.in);
+            String choice = String.valueOf(sc.nextLine());
+            if (choice.compareTo("Yes") == 0) {
+                CancelBook(tl);
             }
         }
         MainEntry();
     }
 
-    public static void CancelBook(List<Ticket> tkList, String[] choices) {
-        int maxNum = tkList.size();
-        List<Ticket> validTickets = new ArrayList<>();
-        System.out.println("Confirm to cancel below bookings:");
+    public static void CancelBook(List<Ticket> tkList) {
+        int maxNum = tkList.size(), i=1;
+//        List<Ticket> validTickets = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        String[] choices;
+
+        System.out.print("Please enter Ticket number:");
+        choices = String.valueOf(sc.nextLine()).split(" ");
         for (String s: choices) {
             try {
                 int tkId = Integer.valueOf(s)-1;
                 if (tkId < 0 || tkId > maxNum) {
-                    System.out.println("Invalid choice "+s+", skip.");
+                    //System.out.println("Invalid choice "+s+", skip.");
                     continue;
                 }
                 Ticket tk = tkList.get(tkId);
-                validTickets.add(tk);
-                System.out.println(tk.movie.name + " in " + tk.movie.cineName + " on " + tk.movie.time + " on " + tk.movie.date);
+//                validTickets.add(tk);
+                tk.movie.seats++;
+                tkList.remove(tk);
+                int id = tkId+1;
+                System.out.println("Ticket "+id+": Movie"+tk.movie.name + " at " + tk.movie.time + " on " + tk.movie.date+ " at " + tk.movie.cineName +" is cancelled. ");
             } catch (Exception e) {
 //                System.out.println("Invalid choice "+s+", skip.");
                 continue;
             }
-        }
-        System.out.println("Yes/No: ");
-        Scanner sc = new Scanner(System.in);
-        String choice = String.valueOf(sc.nextLine());
-        if (choice.compareTo("Yes") == 0) {
-            for (Ticket tk : validTickets) {
-                tk.movie.seats++;
-                tkList.remove(tk);
-            }
-
-            System.out.println("Cancel success.");
         }
     }
 
