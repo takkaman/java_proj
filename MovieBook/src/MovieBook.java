@@ -1,4 +1,6 @@
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -16,25 +18,31 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
+import javax.xml.ws.handler.LogicalHandler;
+
 public class MovieBook {
     public static List<String> movieList = new ArrayList<>();
     public static List<Cinema> cineList = new ArrayList<>();
-    public static User usr = new User();
+    public static User usr;
     public static Map<String, List<Cinema>> movieCineMap = new HashMap<>();
-    public static Map<String, String> userPswd = new HashMap<>();
+    public static Map<String, List<Ticket>> emailTickMap = new HashMap<>();
+    public static Map<String, User> usrRcd = new HashMap<>();
+//    public static Map<String, String> userPswd = new HashMap<>();
 
     public static class Movie{
         public String name;
         public String time;
         public String date;
         public Integer seats;
+        public String cineName;
 //        public List<Cinema> cineList = new ArrayList<>();
         public Movie() {};
-        public Movie(String name, String time, String date, Integer seats) {
+        public Movie(String name, String time, String date, Integer seats, String cineName) {
             this.name = name;
             this.time = time;
             this.date = date;
             this.seats = seats;
+            this.cineName = cineName;
         }
     }
 
@@ -56,9 +64,32 @@ public class MovieBook {
         }
     }
 
+    public static class Ticket {
+        public String email;
+        public Movie movie;
+        public String suburb;
+        public Ticket(String email, Movie movie, String suburb) {
+            this.email = email;
+            this.movie = movie;
+            this.suburb = suburb;
+        }
+    }
+
     public static class User{
         public String name;
         public String password;
+        public Map<String, List<Ticket>> emailTickMap = new HashMap<>();
+        public User(String name, String password) {
+            this.name = name;
+            this.password = password;
+        }
+    }
+
+    public static boolean ValidEmail(String email) {
+        String check = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+        Pattern regex = Pattern.compile(check);
+        Matcher matcher = regex.matcher(email);
+        return matcher.matches();
     }
 
     public static void FetchInfoFromTxt() {
@@ -73,7 +104,8 @@ public class MovieBook {
                 JSONObject user = (JSONObject) users.get(i);
                 String usrName = (String) user.get("name"); //获取JSON对象的键值对
                 String pswd = (String) user.get("password");
-                userPswd.put(usrName, pswd);
+                User u = new User(usrName, pswd);
+                usrRcd.put(usrName, u);
             }
         }catch(JSONException ex){
             ex.printStackTrace();
@@ -100,7 +132,7 @@ public class MovieBook {
                     String movTime = (String) movie.get("time");
                     String movDate = (String) movie.get("date");
                     Integer movSeats = (Integer) movie.get("seats");
-                    Movie mv = new Movie(movName, movTime, movDate, movSeats);
+                    Movie mv = new Movie(movName, movTime, movDate, movSeats, cineName);
                     if (movieCineMap.containsKey(movName)) {
                         movieCineMap.get(movName).add(cine);
                     } else {
@@ -110,8 +142,6 @@ public class MovieBook {
                         movieList.add(movName);
                     }
                     cine.cineMovieList.add(mv);
-//                    Movie m = cine.getMovie(movName);
-//                    System.out.println(movName+" "+m.name);
                 }
             }
         }catch(JSONException ex){
@@ -139,19 +169,20 @@ public class MovieBook {
         Scanner sc = new Scanner(System.in);
         String userName = String.valueOf(sc.nextLine());
 
-        while (!userPswd.containsKey(userName)) {
+        while (!usrRcd.containsKey(userName)) {
             System.out.println("No match. Please try again.");
             System.out.print("User ID: ");
             userName = String.valueOf(sc.nextLine());
         }
-        usr.name = userName;
         System.out.print("Password: ");
         String password = String.valueOf(sc.nextLine());
-        while (password.compareTo(userPswd.get(userName)) != 0) {
+        while (password.compareTo(usrRcd.get(userName).password) != 0) {
             System.out.println("Password incorrect. Please try again.");
             System.out.print("Password: ");
             password = String.valueOf(sc.nextLine());
         }
+        usr = usrRcd.get(userName);
+        emailTickMap = usr.emailTickMap;
     }
 
 /*
@@ -186,7 +217,7 @@ public class MovieBook {
                 System.out.println(i + " : " + cine.name + " on " + mv.time + " on " + mv.date + " with Available seats: " + mv.seats);
                 i++;
             }
-            System.out.print("Please select one movie to book or enter 0 to return to main menu:");
+            System.out.print("Please select movie(s) to book or enter 0 to return to main menu:");
             try {
                 choices = String.valueOf(sc.nextLine()).split(" ");
                 if (choices.length == 1) {
@@ -196,7 +227,7 @@ public class MovieBook {
                         continue;
                     } else {
                         if (input != 0) {
-                            System.out.print("Please select one movie to book or enter 0 to return to main menu:");
+                            System.out.print("Please select movie(s) to book or enter 0 to return to main menu:");
                             BookMoviesPerCine(movName, cineList, choices);
                         }
                         break;
@@ -215,7 +246,6 @@ public class MovieBook {
 
     public static void BookMoviesPerCine(String movName, List<Cinema> cineList, String[] choices) {
         int maxId = cineList.size();
-
         List<Movie> validMovies = new ArrayList<>();
         for (String s: choices) {
             try {
@@ -237,10 +267,26 @@ public class MovieBook {
         Scanner sc = new Scanner(System.in);
         String choice = String.valueOf(sc.nextLine());
         if (choice.compareTo("Yes") == 0) {
+            System.out.println("Enter your email: ");
+            String email = String.valueOf(sc.nextLine());
+            while (!ValidEmail(email)) {
+                System.out.println("Email not valid.\nEnter your email: ");
+                email = String.valueOf(sc.nextLine());
+            }
+            System.out.println("Enter your suburb: ");
+            String suburb = String.valueOf(sc.nextLine());
             for (Movie mv: validMovies) {
                 if (mv.seats > 0) {
                     System.out.println("Book Movie: "+mv.name+" success.");
                     mv.seats--;
+                    Ticket tk = new Ticket(email, mv, suburb);
+                    if (emailTickMap.containsKey(email)) {
+                        emailTickMap.get(email).add(tk);
+                    } else {
+                        List<Ticket> tl = new ArrayList<>();
+                        tl.add(tk);
+                        emailTickMap.put(email, tl);
+                    }
                 } else {
                     System.out.println("Book Movie: "+mv.name+" fail, there is no more available seats");
                 }
@@ -281,17 +327,16 @@ public class MovieBook {
                 System.out.println(i+" : " + mv.name+" on " + mv.time+" on " + mv.date+" with Available seats: " + mv.seats);
                 i++;
             }
-            System.out.print("Please select one movie to book or enter 0 to return to main menu:");
+            System.out.print("Please select movie(s) to book or enter 0 to return to main menu:");
             try {
                 choices = String.valueOf(sc.nextLine()).split(" ");
                 if (choices.length == 1) {
-                    System.out.println(Integer.valueOf(choices[0]));
+//                    System.out.println(Integer.valueOf(choices[0]));
                     int input = Integer.valueOf(choices[0]);
                     if (input < 0 || input >i - 1) {
                         continue;
                     } else {
                         if (input != 0) {
-                            System.out.print("Please select one movie to book or enter 0 to return to main menu:");
                             BookMovies(cine, cine.cineMovieList, choices);
                         }
                         break;
@@ -331,10 +376,26 @@ public class MovieBook {
         Scanner sc = new Scanner(System.in);
         String choice = String.valueOf(sc.nextLine());
         if (choice.compareTo("Yes") == 0) {
+            System.out.println("Enter your email: ");
+            String email = String.valueOf(sc.nextLine());
+            while (!ValidEmail(email)) {
+                System.out.println("Email not valid.\nEnter your email: ");
+                email = String.valueOf(sc.nextLine());
+            }
+            System.out.println("Enter your suburb: ");
+            String suburb = String.valueOf(sc.nextLine());
             for (Movie mv: validMovies) {
                 if (mv.seats > 0) {
                     System.out.println("Book Movie: "+mv.name+" success.");
                     mv.seats--;
+                    Ticket tk = new Ticket(email, mv, suburb);
+                    if (emailTickMap.containsKey(email)) {
+                        emailTickMap.get(email).add(tk);
+                    } else {
+                        List<Ticket> tl = new ArrayList<>();
+                        tl.add(tk);
+                        emailTickMap.put(email, tl);
+                    }
                 } else {
                     System.out.println("Book Movie: "+mv.name+" fail, there is no more available seats");
                 }
@@ -344,13 +405,93 @@ public class MovieBook {
         }
     }
 
+    public static void QueryBooking() {
+        System.out.println("Please enter your email or 0 to return:");
+        Scanner sc = new Scanner(System.in);
+        String email = String.valueOf(sc.nextLine());
+        String[] choices;
+        int i = 1;
+        while(!emailTickMap.containsKey(email) && email.compareTo("0") != 0) {
+            System.out.println("Empty search result.");
+            System.out.println("Please enter your email or 0 to return:");
+            email = String.valueOf(sc.nextLine());
+        }
+        if (email.compareTo("0") == 0) {
+            MainEntry();
+        } else if (emailTickMap.containsKey(email)) {
+            System.out.println("Searched below booking records:");
+            List<Ticket> tl = emailTickMap.get(email);
+            for (Ticket tk: tl) {
+                System.out.println(i + " : " + tk.movie.name + " in " + tk.movie.cineName + " on " + tk.movie.time + " on " + tk.movie.date);
+                i++;
+            }
+            boolean proceed = true;
+            while (proceed) {
+                System.out.print("Please select movie(s) to book or enter 0 to return to main menu:");
+                try {
+                    choices = String.valueOf(sc.nextLine()).split(" ");
+                    if (choices.length == 1) {
+//                    System.out.println(Integer.valueOf(choices[0]));
+                        int input = Integer.valueOf(choices[0]);
+                        if (input < 0 || input >i - 1) {
+                            continue;
+                        } else {
+                            if (input != 0) {
+                                CancelBook(tl, choices);
+                            }
+                            break;
+                        }
+                    } else {
+                        CancelBook(tl, choices);
+                        break;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input.");
+                    continue;
+                }
+            }
+        }
+        MainEntry();
+    }
+
+    public static void CancelBook(List<Ticket> tkList, String[] choices) {
+        int maxNum = tkList.size();
+        List<Ticket> validTickets = new ArrayList<>();
+        System.out.println("Confirm to cancel below bookings:");
+        for (String s: choices) {
+            try {
+                int tkId = Integer.valueOf(s)-1;
+                if (tkId < 0 || tkId > maxNum) {
+                    System.out.println("Invalid choice "+s+", skip.");
+                    continue;
+                }
+                Ticket tk = tkList.get(tkId);
+                validTickets.add(tk);
+                System.out.println(tk.movie.name + " in " + tk.movie.cineName + " on " + tk.movie.time + " on " + tk.movie.date);
+            } catch (Exception e) {
+//                System.out.println("Invalid choice "+s+", skip.");
+                continue;
+            }
+        }
+        System.out.println("Yes/No: ");
+        Scanner sc = new Scanner(System.in);
+        String choice = String.valueOf(sc.nextLine());
+        if (choice.compareTo("Yes") == 0) {
+            for (Ticket tk : validTickets) {
+                tk.movie.seats++;
+                tkList.remove(tk);
+            }
+
+            System.out.println("Cancel success.");
+        }
+    }
 
     public static void MainEntry() {
         System.out.println("Welcome "+usr.name+" !\n****************Menu****************");
-        System.out.println("Please select what you want:\n1: Search to book (By Movie)\n2: Search to book (By Cineplex)\n3: Quit\nPlease input your choice: ");
+        System.out.println("Please select what you want:\n1: Search to book (By Movie)\n2: Search to book (By Cineplex)\n3: Search/Cancel bookings\n4: Log Out\n5: Quit\nPlease input your choice: ");
         Scanner sc = new Scanner(System.in);
         String choice = String.valueOf(sc.nextLine());
-        while (choice.compareTo("1") != 0 && choice.compareTo("2") != 0 && choice.compareTo("3") != 0) {
+        while (choice.compareTo("1") != 0 && choice.compareTo("2") != 0 && choice.compareTo("3") != 0 && choice.compareTo("4") != 0 && choice.compareTo("5") != 0) {
             System.out.println("Please choose either 1 or 2.\nPlease input your choice:");
             choice = String.valueOf(sc.nextLine());
         }
@@ -360,14 +501,23 @@ public class MovieBook {
         } else if (choice.compareTo("2") == 0) {
             System.out.println("Show All Cineplex Theatres");
             ShowAllCineplex();
+        } else if (choice.compareTo("3") == 0) {
+            QueryBooking();
+            MainEntry();
+        } else if (choice.compareTo("4") == 0) {
+            System.out.println("User "+usr.name+" log out.");
+            UserLogin();
+            MainEntry();
+        } else {
+            System.exit(0);
         }
-        return;
     }
 
     public static void main(String[] args) {
         FetchInfoFromTxt();
-        System.out.println("===========================================\n===== Welcome to movie booking system =====\n===========================================");
+        System.out.println("======================================================\n===== Welcome to Java-based movie booking system =====\n======================================================");
         UserLogin();
         MainEntry();
+        System.out.println("Bye bye!");
     }
 }
