@@ -21,6 +21,7 @@ public class MovieBook {
     public static List<Cinema> cineList = new ArrayList<>();
     public static User usr = new User();
     public static Map<String, List<Cinema>> movieCineMap = new HashMap<>();
+    public static Map<String, String> userPswd = new HashMap<>();
 
     public static class Movie{
         public String name;
@@ -57,11 +58,30 @@ public class MovieBook {
 
     public static class User{
         public String name;
+        public String password;
     }
 
     public static void FetchInfoFromTxt() {
-        String fileName="./cineplex.txt";
+        // read login info
+        String fileName="./login.txt";
         StringBuilder jsonStr = ReadJson(fileName);
+
+        try{
+            JSONObject json = new JSONObject(jsonStr.toString());
+            JSONArray users = json.getJSONArray("login");
+            for(int i=0;i<users.length();i++) {
+                JSONObject user = (JSONObject) users.get(i);
+                String usrName = (String) user.get("name"); //获取JSON对象的键值对
+                String pswd = (String) user.get("password");
+                userPswd.put(usrName, pswd);
+            }
+        }catch(JSONException ex){
+            ex.printStackTrace();
+        }
+
+        // read cineplex movie info
+        fileName="./cineplex.txt";
+        jsonStr = ReadJson(fileName);
 
         //将json字符串转化为JSON对象，并读取内容
         try{
@@ -115,32 +135,23 @@ public class MovieBook {
     }
 
     public static void UserLogin() {
-        // read login info
-        String fileName="./login.txt";
-        StringBuilder jsonStr = ReadJson(fileName);
-        ArrayList<String> userList = new ArrayList<>();
-        try{
-            JSONObject json = new JSONObject(jsonStr.toString());
-            JSONArray users = json.getJSONArray("login");
-            for(int i=0;i<users.length();i++) {
-                JSONObject user = (JSONObject) users.get(i);
-                String usrName = (String) user.get("name"); //获取JSON对象的键值对
-                userList.add(usrName);
-            }
-        }catch(JSONException ex){
-            ex.printStackTrace();
-        }
-
         System.out.print("User ID: ");
         Scanner sc = new Scanner(System.in);
         String userName = String.valueOf(sc.nextLine());
 
-        while (!userList.contains(userName)) {
+        while (!userPswd.containsKey(userName)) {
             System.out.println("No match. Please try again.");
             System.out.print("User ID: ");
             userName = String.valueOf(sc.nextLine());
         }
         usr.name = userName;
+        System.out.print("Password: ");
+        String password = String.valueOf(sc.nextLine());
+        while (password.compareTo(userPswd.get(userName)) != 0) {
+            System.out.println("Password incorrect. Please try again.");
+            System.out.print("Password: ");
+            password = String.valueOf(sc.nextLine());
+        }
     }
 
     public static void ShowAllMovies() {
@@ -149,7 +160,7 @@ public class MovieBook {
             System.out.println(i+" : "+movName);
             i++;
         }
-        System.out.print("Please select one movie to show its available cineplex or enter 0 to return to main menu:");
+        System.out.print("Please select one movie or enter 0 to return to main menu:");
         Scanner sc = new Scanner(System.in);
         String choice = String.valueOf(sc.nextLine());
         ShowAllMovieCineplex(movieList.get(Integer.valueOf(choice)-1));
@@ -181,7 +192,7 @@ public class MovieBook {
             System.out.println(i+" : "+cine.name);
             i++;
         }
-        System.out.print("Please select one cineplex to show its movies or enter 0 to return to main menu:");
+        System.out.print("Please select one cineplex or enter 0 to return to main menu:");
         Scanner sc = new Scanner(System.in);
         String choice = String.valueOf(sc.nextLine());
         ShowAllCineplexMovie(cineList.get(Integer.valueOf(choice)-1));
@@ -197,15 +208,38 @@ public class MovieBook {
             System.out.println(i+" : " + mv.name+" on " + mv.time+" on " + mv.date+" with Available seats: " + mv.seats);
             i++;
         }
-        System.out.print("Please select one movie to book or enter 0 to return to main menu:");
         Scanner sc = new Scanner(System.in);
-        String choice = String.valueOf(sc.nextLine());
-        while (choice.compareTo("0") != 0) {
+        String[] choices;
+        boolean proceed = true;
+        while (proceed) {
             System.out.print("Please select one movie to book or enter 0 to return to main menu:");
-            choice = String.valueOf(sc.nextLine());
+            try {
+                choices = String.valueOf(sc.nextLine()).split(" ");
+                if (choices.length == 1) {
+                    System.out.println(Integer.valueOf(choices[0]));
+                    int input = Integer.valueOf(choices[0]);
+                    if (input < 0 || input >i - 1) {
+                        continue;
+                    } else {
+                        if (input == 0) {
+                            MainEntry();
+                        }
+                        BookMovies(cine.cineMovieList, choices);
+                    }
+                } else {
+                    BookMovies(cine.cineMovieList, choices);
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input.");
+                continue;
+            }
         }
-        MainEntry();
     }
+
+    public static void BookMovies(List<Movie> movieList, String[] choices) {
+        System.out.println("Enter movie booking");
+    }
+
 
     public static void MainEntry() {
         System.out.println("Welcome "+usr.name+" !\n****************Menu****************");
