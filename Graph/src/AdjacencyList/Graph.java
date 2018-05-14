@@ -30,7 +30,7 @@ public class Graph {
     }
 
     public void addEdge(String srcName, String destName, int weight){
-        System.out.println("Adding edge: "+srcName+"-"+destName);
+//        System.out.println("Adding edge: "+srcName+"-"+destName);
         edgeNum++;
         Vertex s, d;
         if (!vertices.containsKey(srcName)) {

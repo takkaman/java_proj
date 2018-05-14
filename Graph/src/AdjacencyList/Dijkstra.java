@@ -33,22 +33,22 @@ public class Dijkstra{
         System.out.println("Edge num is: "+g.edgeNum);
         // Calculate Dijkstra.
         Map<String, Double> close = new HashMap<>();
-        obj.calcSP(g, g.getVertex("159323374"));
-////        // Print the minimum Distance.
-        i = 1;
-        for (Vertex v : g.getVertices().values()) {
-            System.out.print("Vertex " + i + " - " + v + " , Dist - " + v.minDistance + " , Path num: " + v.pathCnt+"\n");
-            i++;
-            int j = 1;
-            for (ArrayList<Vertex> p : v.paths) {
-                System.out.print("Path: "+j+" - ");
-                for (Vertex pathvert : p) {
-                    System.out.print(pathvert + " ");
-                }
-                j++;
-                System.out.println("" + v);
-            }
-        }
+//        obj.calcSP(g, g.getVertex("159323374"));
+//////        // Print the minimum Distance.
+//        i = 1;
+//        for (Vertex v : g.getVertices().values()) {
+//            System.out.print("Vertex " + i + " - " + v + " , Dist - " + v.minDistance + " , SP path num: " + v.pathCnt+"\n");
+//            i++;
+////            int j = 1;
+////            for (ArrayList<Vertex> p : v.paths) {
+////                System.out.print("Path: "+j+" - ");
+////                for (Vertex pathvert : p) {
+////                    System.out.print(pathvert + " ");
+////                }
+////                j++;
+////                System.out.println("" + v);
+////            }
+//        }
 //
 //        obj.calcSP(g, g.getVertex("18041656"));
 //////        // Print the minimum Distance.
@@ -62,23 +62,23 @@ public class Dijkstra{
 //            System.out.println("" + v);
 //        }
 
-//        for (String vertex: g.getVertices().keySet()) {
-//            far = 0;
-//            obj.calcSP(g, g.getVertex(vertex));
-//            i = 1;
-////        // Print the minimum Distance.
-//            for (Vertex v : g.getVertices().values()) {
-////                System.out.print("Vertex " + i + " - " + v + " , Dist - " + v.minDistance + " , Path - ");
-////                i++;
-//                far += v.minDistance;
-////                for (Vertex pathvert : v.path) {
-////                    System.out.print(pathvert + " ");
-////                }
-////                System.out.println("" + v);
-//            }
-//            System.out.println("Vector: "+vertex+" far: "+far+" close: "+1/far);
-//            close.put(vertex, 1/far);
-//        }
+        for (String vertex: g.getVertices().keySet()) {
+            far = 0;
+            obj.calcSP(g, g.getVertex(vertex));
+            i = 1;
+//        // Print the minimum Distance.
+            for (Vertex v : g.getVertices().values()) {
+//                System.out.print("Vertex " + i + " - " + v + " , Dist - " + v.minDistance + " , Path - ");
+//                i++;
+                far += v.minDistance;
+//                for (Vertex pathvert : v.path) {
+//                    System.out.print(pathvert + " ");
+//                }
+//                System.out.println("" + v);
+            }
+            System.out.printf("Vector: %-12s far: %-8d close: %.8f\n", vertex, (int)far, 1/far);
+            close.put(vertex, 1/far);
+        }
 //
 //        System.out.println("---------**********------------");
 //        Edge[] delEdges = g.delEdge("v0", "v7");
@@ -168,7 +168,7 @@ public class Dijkstra{
         // Repeat the process till all the connected nodes are visited.
 
         // clear existing info
-        System.out.println("Calc SP from vertex:" + source.name);
+//        System.out.println("Calc SP from vertex:" + source.name);
         g.resetMinDistance();
         source.minDistance = 0;
         PriorityQueue<Vertex> queue = new PriorityQueue<Vertex>();
@@ -179,7 +179,7 @@ public class Dijkstra{
             Vertex u = queue.poll();
 
             for(Edge neighbour:u.neighbours){
-                System.out.println("Scanning vector: "+neighbour.target.name);
+//                System.out.println("Scanning vector: "+neighbour.target.name);
                 Double newDist = u.minDistance+neighbour.weight;
 
                 if(neighbour.target.minDistance>newDist){
@@ -191,10 +191,10 @@ public class Dijkstra{
                     neighbour.target.path = new ArrayList<>(u.path);
                     neighbour.target.path.add(u);
 //                    System.out.println("Path");
-                    for (Vertex vv: neighbour.target.path) {
-                        System.out.print(vv.name);
-                    }
-                    System.out.print("\n");
+//                    for (Vertex vv: neighbour.target.path) {
+//                        System.out.print(vv.name);
+//                    }
+//                    System.out.print("\n");
 
 //                    System.out.println("Paths");
                     neighbour.target.pathCnt = 0;
@@ -208,9 +208,9 @@ public class Dijkstra{
                         for (ArrayList<Vertex> p : u.paths) {
                             ArrayList<Vertex> p1 = new ArrayList<>(p);
                             p1.add(u);
-                            for (Vertex vv : p1) {
-                                System.out.print(vv.name);
-                            }
+//                            for (Vertex vv : p1) {
+//                                System.out.print(vv.name);
+//                            }
 //                            System.out.print("\n");
                             neighbour.target.paths.add(p1);
                             neighbour.target.pathCnt++;
