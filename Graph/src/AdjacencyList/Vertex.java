@@ -5,7 +5,9 @@ public class Vertex implements Comparable<Vertex>{
 
     public final String name;
     public ArrayList<Edge> neighbours;
-    public LinkedList<Vertex> path;
+    public ArrayList<Vertex> path;
+    public ArrayList<ArrayList<Vertex>> paths;
+    public int pathCnt;
     public double minDistance = Double.POSITIVE_INFINITY;
     public Vertex previous;
 
@@ -16,7 +18,9 @@ public class Vertex implements Comparable<Vertex>{
     public Vertex(String name){
         this.name = name;
         neighbours = new ArrayList<Edge>();
-        path = new LinkedList<Vertex>();
+        path = new ArrayList<>();
+        paths = new ArrayList<ArrayList<Vertex>>();
+        pathCnt = 0;
     }
 
     public String toString(){

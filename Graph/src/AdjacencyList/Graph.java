@@ -1,5 +1,6 @@
 package AdjacencyList;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class Graph {
     }
 
     public void addEdge(String srcName, String destName, int weight){
-//        System.out.println("Adding edge: "+srcName+"-"+destName);
+        System.out.println("Adding edge: "+srcName+"-"+destName);
         edgeNum++;
         Vertex s, d;
         if (!vertices.containsKey(srcName)) {
@@ -108,7 +109,9 @@ public class Graph {
         for (String key : vertices.keySet()) {
             Vertex v = vertices.get(key);
             v.setMinDistance(Double.POSITIVE_INFINITY);
-            v.path = new LinkedList<Vertex>();
+            v.path = new ArrayList<>();
+            v.paths = new ArrayList<ArrayList<Vertex>>();
+            v.pathCnt = 0;
         }
     }
 

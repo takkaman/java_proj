@@ -33,17 +33,22 @@ public class Dijkstra{
         System.out.println("Edge num is: "+g.edgeNum);
         // Calculate Dijkstra.
         Map<String, Double> close = new HashMap<>();
-//        obj.calcSP(g, g.getVertex("30495974"));
-//////        // Print the minimum Distance.
-//        i = 1;
-//        for (Vertex v : g.getVertices().values()) {
-//            System.out.print("Vertex " + i + " - " + v + " , Dist - " + v.minDistance + " , Path - ");
-//            i++;
-//            for (Vertex pathvert : v.path) {
-//                System.out.print(pathvert + " ");
-//            }
-//            System.out.println("" + v);
-//        }
+        obj.calcSP(g, g.getVertex("159323374"));
+////        // Print the minimum Distance.
+        i = 1;
+        for (Vertex v : g.getVertices().values()) {
+            System.out.print("Vertex " + i + " - " + v + " , Dist - " + v.minDistance + " , Path num: " + v.pathCnt+"\n");
+            i++;
+            int j = 1;
+            for (ArrayList<Vertex> p : v.paths) {
+                System.out.print("Path: "+j+" - ");
+                for (Vertex pathvert : p) {
+                    System.out.print(pathvert + " ");
+                }
+                j++;
+                System.out.println("" + v);
+            }
+        }
 //
 //        obj.calcSP(g, g.getVertex("18041656"));
 //////        // Print the minimum Distance.
@@ -57,23 +62,23 @@ public class Dijkstra{
 //            System.out.println("" + v);
 //        }
 
-        for (String vertex: g.getVertices().keySet()) {
-            far = 0;
-            obj.calcSP(g, g.getVertex(vertex));
-            i = 1;
-//        // Print the minimum Distance.
-            for (Vertex v : g.getVertices().values()) {
-//                System.out.print("Vertex " + i + " - " + v + " , Dist - " + v.minDistance + " , Path - ");
-//                i++;
-                far += v.minDistance;
-//                for (Vertex pathvert : v.path) {
-//                    System.out.print(pathvert + " ");
-//                }
-//                System.out.println("" + v);
-            }
-            System.out.println("Vector: "+vertex+" far: "+far+" close: "+1/far);
-            close.put(vertex, 1/far);
-        }
+//        for (String vertex: g.getVertices().keySet()) {
+//            far = 0;
+//            obj.calcSP(g, g.getVertex(vertex));
+//            i = 1;
+////        // Print the minimum Distance.
+//            for (Vertex v : g.getVertices().values()) {
+////                System.out.print("Vertex " + i + " - " + v + " , Dist - " + v.minDistance + " , Path - ");
+////                i++;
+//                far += v.minDistance;
+////                for (Vertex pathvert : v.path) {
+////                    System.out.print(pathvert + " ");
+////                }
+////                System.out.println("" + v);
+//            }
+//            System.out.println("Vector: "+vertex+" far: "+far+" close: "+1/far);
+//            close.put(vertex, 1/far);
+//        }
 //
 //        System.out.println("---------**********------------");
 //        Edge[] delEdges = g.delEdge("v0", "v7");
@@ -174,6 +179,7 @@ public class Dijkstra{
             Vertex u = queue.poll();
 
             for(Edge neighbour:u.neighbours){
+                System.out.println("Scanning vector: "+neighbour.target.name);
                 Double newDist = u.minDistance+neighbour.weight;
 
                 if(neighbour.target.minDistance>newDist){
@@ -182,10 +188,46 @@ public class Dijkstra{
                     neighbour.target.minDistance = newDist;
 
                     // Take the path visited till now and add the new node.s
-                    neighbour.target.path = new LinkedList<Vertex>(u.path);
+                    neighbour.target.path = new ArrayList<>(u.path);
                     neighbour.target.path.add(u);
+//                    System.out.println("Path");
+                    for (Vertex vv: neighbour.target.path) {
+                        System.out.print(vv.name);
+                    }
+                    System.out.print("\n");
+
+//                    System.out.println("Paths");
+                    neighbour.target.pathCnt = 0;
+                    neighbour.target.paths = new ArrayList<ArrayList<Vertex>>();
+                    if (u.paths.size() == 0) {
+                        ArrayList<Vertex> p = new ArrayList<Vertex>();
+                        p.add(u);
+                        neighbour.target.paths.add(p);
+                        neighbour.target.pathCnt++;
+                    } else {
+                        for (ArrayList<Vertex> p : u.paths) {
+                            ArrayList<Vertex> p1 = new ArrayList<>(p);
+                            p1.add(u);
+                            for (Vertex vv : p1) {
+                                System.out.print(vv.name);
+                            }
+//                            System.out.print("\n");
+                            neighbour.target.paths.add(p1);
+                            neighbour.target.pathCnt++;
+                        }
+                    }
 
                     //Reenter the node with new distance.
+                    queue.add(neighbour.target);
+                }
+                else if (neighbour.target.minDistance == newDist) {
+                    queue.remove(neighbour.target);
+                    for(ArrayList<Vertex> p: u.paths) {
+                        ArrayList<Vertex> p1 = new ArrayList<>(p);
+                        p1.add(u);
+                        neighbour.target.paths.add(p1);
+                        neighbour.target.pathCnt++;
+                    }
                     queue.add(neighbour.target);
                 }
             }
