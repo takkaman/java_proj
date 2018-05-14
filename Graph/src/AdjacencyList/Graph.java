@@ -1,6 +1,7 @@
 package AdjacencyList;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class Graph {
@@ -107,6 +108,7 @@ public class Graph {
         for (String key : vertices.keySet()) {
             Vertex v = vertices.get(key);
             v.setMinDistance(Double.POSITIVE_INFINITY);
+            v.path = new LinkedList<Vertex>();
         }
     }
 

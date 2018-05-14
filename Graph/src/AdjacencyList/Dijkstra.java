@@ -24,26 +24,58 @@ public class Dijkstra{
     public static void main(String[] arg){
 
         Dijkstra obj = new Dijkstra();
-        int i = 1;
+        int i;
+        double far;
         // Create a new graph.
         Graph g = obj.createGraph();
         System.out.println("Max degree of the Graph is: "+g.calcDegree());
         System.out.println("Vertex num is: "+g.verNum);
         System.out.println("Edge num is: "+g.edgeNum);
         // Calculate Dijkstra.
-        obj.calculate(g.getVertex("14344319"));
+        Map<String, Double> close = new HashMap<>();
+//        obj.calcSP(g, g.getVertex("30495974"));
+//////        // Print the minimum Distance.
+//        i = 1;
+//        for (Vertex v : g.getVertices().values()) {
+//            System.out.print("Vertex " + i + " - " + v + " , Dist - " + v.minDistance + " , Path - ");
+//            i++;
+//            for (Vertex pathvert : v.path) {
+//                System.out.print(pathvert + " ");
+//            }
+//            System.out.println("" + v);
+//        }
+//
+//        obj.calcSP(g, g.getVertex("18041656"));
+//////        // Print the minimum Distance.
+//        i = 1;
+//        for (Vertex v : g.getVertices().values()) {
+//            System.out.print("Vertex " + i + " - " + v + " , Dist - " + v.minDistance + " , Path - ");
+//            i++;
+//            for (Vertex pathvert : v.path) {
+//                System.out.print(pathvert + " ");
+//            }
+//            System.out.println("" + v);
+//        }
 
-        // Print the minimum Distance.
-        for(Vertex v : g.getVertices().values()){
-            System.out.print("Vertex "+i+" - "+v+" , Dist - "+ v.minDistance+" , Path - ");
-            i++;
-            for(Vertex pathvert:v.path) {
-                System.out.print(pathvert+" ");
+        for (String vertex: g.getVertices().keySet()) {
+            far = 0;
+            obj.calcSP(g, g.getVertex(vertex));
+            i = 1;
+//        // Print the minimum Distance.
+            for (Vertex v : g.getVertices().values()) {
+//                System.out.print("Vertex " + i + " - " + v + " , Dist - " + v.minDistance + " , Path - ");
+//                i++;
+                far += v.minDistance;
+//                for (Vertex pathvert : v.path) {
+//                    System.out.print(pathvert + " ");
+//                }
+//                System.out.println("" + v);
             }
-            System.out.println(""+v);
+            System.out.println("Vector: "+vertex+" far: "+far+" close: "+1/far);
+            close.put(vertex, 1/far);
         }
-
-        System.out.println("---------**********------------");
+//
+//        System.out.println("---------**********------------");
 //        Edge[] delEdges = g.delEdge("v0", "v7");
 //        System.out.println("Deleted edge vertexes: " + delEdges[0].target.name+" , "+ delEdges[1].target.name);
 //        g.resetMinDistance();
@@ -123,13 +155,16 @@ public class Dijkstra{
         return g;
     }
 
-    public void calculate(Vertex source){
+    public void calcSP(Graph g, Vertex source){
         // Algo:
         // 1. Take the unvisited node with minimum weight.
         // 2. Visit all its neighbours.
         // 3. Update the distances for all the neighbours (In the Priority Queue).
         // Repeat the process till all the connected nodes are visited.
 
+        // clear existing info
+        System.out.println("Calc SP from vertex:" + source.name);
+        g.resetMinDistance();
         source.minDistance = 0;
         PriorityQueue<Vertex> queue = new PriorityQueue<Vertex>();
         queue.add(source);
