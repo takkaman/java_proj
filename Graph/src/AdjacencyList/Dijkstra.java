@@ -1,8 +1,18 @@
 package AdjacencyList;
 
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 
 /**
  * <p>
@@ -14,39 +24,19 @@ public class Dijkstra{
     public static void main(String[] arg){
 
         Dijkstra obj = new Dijkstra();
-
+        int i = 1;
         // Create a new graph.
-        Graph g = new Graph(new String[]{"v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8"});
-
-        // Add the required edges.
-        g.addEdge("v0", "v1", 4); g.addEdge("v0", "v7", 8);
-        g.addEdge("v1", "v2", 8); g.addEdge("v1", "v7", 11); g.addEdge("v2", "v1", 8);
-        g.addEdge("v2", "v8", 2); g.addEdge("v2", "v5", 4); g.addEdge("v2", "v3", 7);
-        g.addEdge("v3", "v2", 7); g.addEdge("v3", "v5", 14); g.addEdge("v3", "v4", 9);
-        g.addEdge("v4", "v3", 9); g.addEdge("v4", "v5", 10);
-        g.addEdge("v5", "v4", 10); g.addEdge("v5", "v3", 9); g.addEdge("v5", "v2", 4);
-        g.addEdge("v5", "v6", 2);
-        g.addEdge("v6", "v7", 1); g.addEdge("v6", "v8", 6); g.addEdge("v6", "v5", 2);
-        g.addEdge("v7", "v0", 8); g.addEdge("v7", "v8", 7); g.addEdge("v7", "v1", 11);
-        g.addEdge("v7", "v6", 1);
-        g.addEdge("v8", "v2", 2); g.addEdge("v8", "v7", 7); g.addEdge("v8", "v6", 6);
-
-        int degree = 0;
-
-        for (Map.Entry<String, Vertex> v: g.getVertices().entrySet()) {
-            int d = v.getValue().neighbours.size();
-            if ( d > degree) {
-                degree = d;
-            }
-        }
-
-        System.out.println("Max degree of the Graph is: "+degree);
+        Graph g = obj.createGraph();
+        System.out.println("Max degree of the Graph is: "+g.calcDegree());
+        System.out.println("Vertex num is: "+g.verNum);
+        System.out.println("Edge num is: "+g.edgeNum);
         // Calculate Dijkstra.
-        obj.calculate(g.getVertex("v0"));
+        obj.calculate(g.getVertex("14344319"));
 
         // Print the minimum Distance.
         for(Vertex v : g.getVertices().values()){
-            System.out.print("Vertex - "+v+" , Dist - "+ v.minDistance+" , Path - ");
+            System.out.print("Vertex "+i+" - "+v+" , Dist - "+ v.minDistance+" , Path - ");
+            i++;
             for(Vertex pathvert:v.path) {
                 System.out.print(pathvert+" ");
             }
@@ -54,19 +44,83 @@ public class Dijkstra{
         }
 
         System.out.println("---------**********------------");
-        Edge[] delEdges = g.delEdge("v0", "v7");
-        System.out.println("Deleted edge vertexes: " + delEdges[0].target.name+" , "+ delEdges[1].target.name);
-        g.resetMinDistance();
-        obj.calculate(g.getVertex("v0"));
-        // 删除一条边后的最短路径
-        for(Vertex v : g.getVertices().values()){
-            System.out.print("Vertex - " + v + " , Dist - " + v.minDistance
-                    + " , Path - ");
-            for (Vertex pathvert : v.path) {
-                System.out.print(pathvert + " ");
+//        Edge[] delEdges = g.delEdge("v0", "v7");
+//        System.out.println("Deleted edge vertexes: " + delEdges[0].target.name+" , "+ delEdges[1].target.name);
+//        g.resetMinDistance();
+//        obj.calculate(g.getVertex("v0"));
+//        // 删除一条边后的最短路径
+//        for(Vertex v : g.getVertices().values()){
+//            System.out.print("Vertex - " + v + " , Dist - " + v.minDistance
+//                    + " , Path - ");
+//            for (Vertex pathvert : v.path) {
+//                System.out.print(pathvert + " ");
+//            }
+//            System.out.println("" + v);
+//        }
+    }
+
+    public Graph createGraph() {
+        String fileName;
+//        fileName ="./428333.edges";
+        String line;
+        Graph g = new Graph();
+//        List<String> vertexNames = new ArrayList<>();
+//        try
+//        {
+//            BufferedReader in=new BufferedReader(new FileReader(fileName));
+//            line=in.readLine();
+//            while (line!=null) {
+////				System.out.println(line);
+//                String src = line.split(" ")[0];
+//                String dst = line.split(" ")[1];
+////                vertexNames.add(src);
+////                vertexNames.add(dst);
+////                System.out.println(src+" "+dst);
+//                g.addEdge(src, dst, 1);
+//                line=in.readLine();
+//            }
+//            in.close();
+//        } catch (Exception e) {
+//			e.printStackTrace();
+//        }
+
+        fileName="./78813.edges";
+//        List<String> vertexNames = new ArrayList<>();
+        try
+        {
+            BufferedReader in=new BufferedReader(new FileReader(fileName));
+            line=in.readLine();
+            while (line!=null) {
+//				System.out.println(line);
+                String src = line.split(" ")[0];
+                String dst = line.split(" ")[1];
+//                vertexNames.add(src);
+//                vertexNames.add(dst);
+//                System.out.println(src+" "+dst);
+                g.addEdge(src, dst, 1);
+                line=in.readLine();
             }
-            System.out.println("" + v);
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+//        Graph g = new Graph(new String[]{"v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8"});
+//        // Add the required edges.
+//        g.addEdge("v0", "v1", 4); g.addEdge("v0", "v7", 8);
+//        g.addEdge("v1", "v2", 8); g.addEdge("v1", "v7", 11); g.addEdge("v2", "v1", 8);
+//        g.addEdge("v2", "v8", 2); g.addEdge("v2", "v5", 4); g.addEdge("v2", "v3", 7);
+//        g.addEdge("v3", "v2", 7); g.addEdge("v3", "v5", 14); g.addEdge("v3", "v4", 9);
+//        g.addEdge("v4", "v3", 9); g.addEdge("v4", "v5", 10);
+//        g.addEdge("v5", "v4", 10); g.addEdge("v5", "v3", 9); g.addEdge("v5", "v2", 4);
+//        g.addEdge("v5", "v6", 2);
+//        g.addEdge("v6", "v7", 1); g.addEdge("v6", "v8", 6); g.addEdge("v6", "v5", 2);
+//        g.addEdge("v7", "v0", 8); g.addEdge("v7", "v8", 7); g.addEdge("v7", "v1", 11);
+//        g.addEdge("v7", "v6", 1);
+//        g.addEdge("v8", "v2", 2); g.addEdge("v8", "v7", 7); g.addEdge("v8", "v6", 6);
+
+//
+        return g;
     }
 
     public void calculate(Vertex source){

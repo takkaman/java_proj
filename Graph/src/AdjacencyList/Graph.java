@@ -4,16 +4,48 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Graph {
-    private Map<String, Vertex> vertices;
-    public Graph(String[] vertexNames){
-        vertices = new LinkedHashMap<String, Vertex>();
-        for(String name : vertexNames){
-            vertices.put(name, new Vertex(name));
+    private Map<String, Vertex> vertices = new LinkedHashMap<String, Vertex>();
+    public int edgeNum;
+    public int verNum;
+//    public Graph(String[] vertexNames){
+//        vertices = new LinkedHashMap<String, Vertex>();
+//        for(String name : vertexNames){
+//            vertices.put(name, new Vertex(name));
+//        }
+//    }
+
+    public Graph() {}
+
+    public int calcDegree() {
+        int degree = 0;
+        for (Map.Entry<String, Vertex> v: vertices.entrySet()) {
+            int d = v.getValue().neighbours.size();
+            if (d > degree) {
+                degree = d;
+            }
         }
+        return degree;
     }
 
     public void addEdge(String srcName, String destName, int weight){
-        Vertex s = vertices.get(srcName);
+//        System.out.println("Adding edge: "+srcName+"-"+destName);
+        edgeNum++;
+        Vertex s, d;
+        if (!vertices.containsKey(srcName)) {
+            s = new Vertex(srcName);
+            vertices.put(srcName, s);
+            verNum++;
+        } else {
+            s = vertices.get(srcName);
+        }
+        if (!vertices.containsKey(destName)) {
+            d = new Vertex(destName);
+            vertices.put(destName, d);
+            verNum++;
+        } else {
+            d = vertices.get(destName);
+        }
+
         boolean dup = false;
         for(Edge e: s.neighbours) {
             if (e.target.name == destName) {
@@ -27,7 +59,6 @@ public class Graph {
         }
         Edge new_edge = new Edge(vertices.get(destName),weight);
         s.neighbours.add(new_edge);
-        Vertex d = vertices.get(destName);
         new_edge = new Edge(vertices.get(srcName),weight);
         d.neighbours.add(new_edge);
     }
