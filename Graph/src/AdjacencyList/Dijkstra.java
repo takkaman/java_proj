@@ -1,14 +1,13 @@
 package AdjacencyList;
 
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.PriorityQueue;
 
 /**
  * <p>
- * 最短路径算法
+ * Dijkstra shrtest path
  * <p>
- * @author 天行健
- *
  */
 public class Dijkstra{
 
@@ -25,12 +24,23 @@ public class Dijkstra{
         g.addEdge("v2", "v8", 2); g.addEdge("v2", "v5", 4); g.addEdge("v2", "v3", 7);
         g.addEdge("v3", "v2", 7); g.addEdge("v3", "v5", 14); g.addEdge("v3", "v4", 9);
         g.addEdge("v4", "v3", 9); g.addEdge("v4", "v5", 10);
-        g.addEdge("v5", "v4", 10); g.addEdge("v5", "v3", 9); g.addEdge("v5", "v2", 4); g.addEdge("v5", "v6", 2);
+        g.addEdge("v5", "v4", 10); g.addEdge("v5", "v3", 9); g.addEdge("v5", "v2", 4);
+        g.addEdge("v5", "v6", 2);
         g.addEdge("v6", "v7", 1); g.addEdge("v6", "v8", 6); g.addEdge("v6", "v5", 2);
-        g.addEdge("v7", "v0", 8); g.addEdge("v7", "v8", 7); g.addEdge("v7", "v1", 11); g.addEdge("v7", "v6", 1);
+        g.addEdge("v7", "v0", 8); g.addEdge("v7", "v8", 7); g.addEdge("v7", "v1", 11);
+        g.addEdge("v7", "v6", 1);
         g.addEdge("v8", "v2", 2); g.addEdge("v8", "v7", 7); g.addEdge("v8", "v6", 6);
 
+        int degree = 0;
 
+        for (Map.Entry<String, Vertex> v: g.getVertices().entrySet()) {
+            int d = v.getValue().neighbours.size();
+            if ( d > degree) {
+                degree = d;
+            }
+        }
+
+        System.out.println("Max degree of the Graph is: "+degree);
         // Calculate Dijkstra.
         obj.calculate(g.getVertex("v0"));
 
@@ -44,8 +54,8 @@ public class Dijkstra{
         }
 
         System.out.println("---------**********------------");
-        Edge delEdge = g.delEdge("v0", "v7");
-        System.out.println("被删除的边(已字符为顶点主键)：" + delEdge);
+        Edge[] delEdges = g.delEdge("v0", "v7");
+        System.out.println("Deleted edge vertexes: " + delEdges[0].target.name+" , "+ delEdges[1].target.name);
         g.resetMinDistance();
         obj.calculate(g.getVertex("v0"));
         // 删除一条边后的最短路径

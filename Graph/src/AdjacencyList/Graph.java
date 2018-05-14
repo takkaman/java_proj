@@ -14,8 +14,22 @@ public class Graph {
 
     public void addEdge(String srcName, String destName, int weight){
         Vertex s = vertices.get(srcName);
+        boolean dup = false;
+        for(Edge e: s.neighbours) {
+            if (e.target.name == destName) {
+                dup = true;
+                break;
+            }
+        }
+        if (dup) {
+            System.out.println("Duplicated edge add fpr Vertex: "+srcName+" , "+destName);
+            return;
+        }
         Edge new_edge = new Edge(vertices.get(destName),weight);
         s.neighbours.add(new_edge);
+        Vertex d = vertices.get(destName);
+        new_edge = new Edge(vertices.get(srcName),weight);
+        d.neighbours.add(new_edge);
     }
 
     /**
@@ -28,19 +42,27 @@ public class Graph {
      * @param dest 目标顶点
      * @return
      */
-    public Edge delEdge(String src, String dest){
+    public Edge[] delEdge(String src, String dest){
+        Edge[] delEdges = new Edge[2];
         Vertex s = vertices.get(src);
         Vertex d = vertices.get(dest);
 
         Edge delEdge = null;
         for(Edge edge : s.neighbours){
             if(edge.target == d){
-                delEdge = edge;
+                delEdges[0] = edge;
             }
         }
-        s.neighbours.remove(delEdge);
+        s.neighbours.remove(delEdges[0]);
 
-        return delEdge;
+        for(Edge edge : d.neighbours){
+            if(edge.target == s){
+                delEdges[1] = edge;
+            }
+        }
+        d.neighbours.remove(delEdges[1]);
+
+        return delEdges;
     }
 
     /**
