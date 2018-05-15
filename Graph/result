@@ -1,0 +1,465 @@
+1. Degree centrality report:
+Max degree of the Graph is: 111
+Vertex num is: 229
+Edge num is: 2859
+2. Closeness centrality report:
+Vector: 586          far: 457      close: 0.00218818
+Vector: 2038         far: 499      close: 0.00200401
+Vector: 2419         far: 550      close: 0.00181818
+Vector: 3839         far: 442      close: 0.00226244
+Vector: 11628        far: 487      close: 0.00205339
+Vector: 13055        far: 487      close: 0.00205339
+Vector: 13405        far: 567      close: 0.00176367
+Vector: 15023        far: 500      close: 0.00200000
+Vector: 113963       far: 495      close: 0.00202020
+Vector: 174853       far: 463      close: 0.00215983
+Vector: 229523       far: 415      close: 0.00240964
+Vector: 428333       far: 444      close: 0.00225225
+Vector: 621713       far: 438      close: 0.00228311
+Vector: 627363       far: 403      close: 0.00248139
+Vector: 643443       far: 499      close: 0.00200401
+Vector: 655613       far: 427      close: 0.00234192
+Vector: 656933       far: 573      close: 0.00174520
+Vector: 663273       far: 605      close: 0.00165289
+Vector: 697163       far: 473      close: 0.00211416
+Vector: 758185       far: 461      close: 0.00216920
+Vector: 782329       far: 462      close: 0.00216450
+Vector: 789314       far: 571      close: 0.00175131
+Vector: 793219       far: 427      close: 0.00234192
+Vector: 806170       far: 488      close: 0.00204918
+Vector: 813491       far: 477      close: 0.00209644
+Vector: 813715       far: 482      close: 0.00207469
+Vector: 817386       far: 480      close: 0.00208333
+Vector: 821449       far: 481      close: 0.00207900
+Vector: 849131       far: 402      close: 0.00248756
+Vector: 949161       far: 521      close: 0.00191939
+Vector: 992031       far: 433      close: 0.00230947
+Vector: 1018211      far: 515      close: 0.00194175
+Vector: 1375251      far: 524      close: 0.00190840
+Vector: 1594501      far: 566      close: 0.00176678
+Vector: 1847381      far: 507      close: 0.00197239
+Vector: 1950981      far: 609      close: 0.00164204
+Vector: 1976611      far: 593      close: 0.00168634
+Vector: 2195241      far: 463      close: 0.00215983
+Vector: 2384071      far: 406      close: 0.00246305
+Vector: 3361871      far: 500      close: 0.00200000
+Vector: 3375371      far: 513      close: 0.00194932
+Vector: 3388481      far: 563      close: 0.00177620
+Vector: 3558801      far: 471      close: 0.00212314
+Vector: 3594701      far: 472      close: 0.00211864
+Vector: 3640341      far: 475      close: 0.00210526
+Vector: 4044361      far: 437      close: 0.00228833
+Vector: 4958131      far: 535      close: 0.00186916
+Vector: 5027041      far: 513      close: 0.00194932
+Vector: 5362182      far: 525      close: 0.00190476
+Vector: 5385852      far: 475      close: 0.00210526
+Vector: 5435752      far: 478      close: 0.00209205
+Vector: 5497452      far: 485      close: 0.00206186
+Vector: 5541662      far: 479      close: 0.00208768
+Vector: 5637652      far: 437      close: 0.00228833
+Vector: 5676102      far: 397      close: 0.00251889
+Vector: 5725652      far: 508      close: 0.00196850
+Vector: 5746402      far: 502      close: 0.00199203
+Vector: 5796972      far: 506      close: 0.00197628
+Vector: 5849202      far: 484      close: 0.00206612
+Vector: 5963912      far: 504      close: 0.00198413
+Vector: 6217542      far: 474      close: 0.00210970
+Vector: 6244092      far: 607      close: 0.00164745
+Vector: 6271152      far: 573      close: 0.00174520
+Vector: 6339822      far: 455      close: 0.00219780
+Vector: 6376372      far: 529      close: 0.00189036
+Vector: 6515122      far: 478      close: 0.00209205
+Vector: 6813682      far: 459      close: 0.00217865
+Vector: 7434252      far: 523      close: 0.00191205
+Vector: 7684302      far: 492      close: 0.00203252
+Vector: 7921352      far: 468      close: 0.00213675
+Vector: 7924912      far: 556      close: 0.00179856
+Vector: 8091052      far: 533      close: 0.00187617
+Vector: 8168192      far: 492      close: 0.00203252
+Vector: 9184682      far: 519      close: 0.00192678
+Vector: 9235972      far: 612      close: 0.00163399
+Vector: 9363302      far: 488      close: 0.00204918
+Vector: 9460662      far: 410      close: 0.00243902
+Vector: 9462782      far: 543      close: 0.00184162
+Vector: 9528212      far: 715      close: 0.00139860
+Vector: 9535182      far: 517      close: 0.00193424
+Vector: 10359172     far: 575      close: 0.00173913
+Vector: 10461992     far: 591      close: 0.00169205
+Vector: 10751252     far: 502      close: 0.00199203
+Vector: 10760422     far: 465      close: 0.00215054
+Vector: 11323282     far: 631      close: 0.00158479
+Vector: 11336782     far: 384      close: 0.00260417
+Vector: 11362622     far: 580      close: 0.00172414
+Vector: 11375732     far: 448      close: 0.00223214
+Vector: 12101862     far: 435      close: 0.00229885
+Vector: 12199652     far: 403      close: 0.00248139
+Vector: 12307282     far: 489      close: 0.00204499
+Vector: 13170222     far: 566      close: 0.00176678
+Vector: 13434092     far: 460      close: 0.00217391
+Vector: 13535762     far: 429      close: 0.00233100
+Vector: 13753352     far: 521      close: 0.00191939
+Vector: 13837292     far: 471      close: 0.00212314
+Vector: 13910012     far: 474      close: 0.00210970
+Vector: 14048987     far: 497      close: 0.00201207
+Vector: 14058661     far: 510      close: 0.00196078
+Vector: 14066988     far: 476      close: 0.00210084
+Vector: 14079172     far: 444      close: 0.00225225
+Vector: 14091119     far: 449      close: 0.00222717
+Vector: 14111698     far: 465      close: 0.00215054
+Vector: 14124059     far: 464      close: 0.00215517
+Vector: 14154082     far: 540      close: 0.00185185
+Vector: 14161531     far: 487      close: 0.00205339
+Vector: 14209885     far: 452      close: 0.00221239
+Vector: 14278964     far: 456      close: 0.00219298
+Vector: 14290339     far: 575      close: 0.00173913
+Vector: 14297283     far: 495      close: 0.00202020
+Vector: 14344319     far: 514      close: 0.00194553
+Vector: 14352556     far: 459      close: 0.00217865
+Vector: 14371227     far: 536      close: 0.00186567
+Vector: 14405111     far: 487      close: 0.00205339
+Vector: 14616067     far: 571      close: 0.00175131
+Vector: 14622630     far: 566      close: 0.00176678
+Vector: 14874480     far: 431      close: 0.00232019
+Vector: 14940487     far: 681      close: 0.00146843
+Vector: 14964767     far: 445      close: 0.00224719
+Vector: 14976534     far: 619      close: 0.00161551
+Vector: 14995801     far: 549      close: 0.00182149
+Vector: 15033883     far: 532      close: 0.00187970
+Vector: 15258591     far: 486      close: 0.00205761
+Vector: 15294787     far: 602      close: 0.00166113
+Vector: 15335141     far: 587      close: 0.00170358
+Vector: 15363619     far: 534      close: 0.00187266
+Vector: 15416485     far: 418      close: 0.00239234
+Vector: 15437804     far: 540      close: 0.00185185
+Vector: 15438005     far: 475      close: 0.00210526
+Vector: 15468786     far: 537      close: 0.00186220
+Vector: 15477919     far: 489      close: 0.00204499
+Vector: 15736732     far: 501      close: 0.00199601
+Vector: 15948437     far: 443      close: 0.00225734
+Vector: 16008396     far: 517      close: 0.00193424
+Vector: 16120265     far: 421      close: 0.00237530
+Vector: 16186995     far: 507      close: 0.00197239
+Vector: 16211399     far: 617      close: 0.00162075
+Vector: 16265198     far: 555      close: 0.00180180
+Vector: 16304817     far: 458      close: 0.00218341
+Vector: 16338664     far: 506      close: 0.00197628
+Vector: 16439471     far: 508      close: 0.00196850
+Vector: 16511126     far: 549      close: 0.00182149
+Vector: 16573941     far: 535      close: 0.00186916
+Vector: 16583846     far: 561      close: 0.00178253
+Vector: 16624991     far: 532      close: 0.00187970
+Vector: 16727022     far: 472      close: 0.00211864
+Vector: 16751855     far: 642      close: 0.00155763
+Vector: 16930986     far: 438      close: 0.00228311
+Vector: 16959786     far: 487      close: 0.00205339
+Vector: 16993577     far: 498      close: 0.00200803
+Vector: 17034634     far: 493      close: 0.00202840
+Vector: 17093224     far: 600      close: 0.00166667
+Vector: 17220817     far: 511      close: 0.00195695
+Vector: 17408993     far: 635      close: 0.00157480
+Vector: 17449991     far: 481      close: 0.00207900
+Vector: 17606033     far: 624      close: 0.00160256
+Vector: 17800533     far: 513      close: 0.00194932
+Vector: 17800797     far: 441      close: 0.00226757
+Vector: 17841702     far: 575      close: 0.00173913
+Vector: 17885184     far: 590      close: 0.00169492
+Vector: 18041656     far: 597      close: 0.00167504
+Vector: 18139167     far: 507      close: 0.00197239
+Vector: 18193396     far: 489      close: 0.00204499
+Vector: 18208247     far: 546      close: 0.00183150
+Vector: 18296076     far: 554      close: 0.00180505
+Vector: 18432997     far: 653      close: 0.00153139
+Vector: 18498684     far: 497      close: 0.00201207
+Vector: 18852278     far: 439      close: 0.00227790
+Vector: 19459100     far: 509      close: 0.00196464
+Vector: 19658936     far: 498      close: 0.00200803
+Vector: 20005307     far: 527      close: 0.00189753
+Vector: 20282100     far: 512      close: 0.00195313
+Vector: 20290970     far: 634      close: 0.00157729
+Vector: 20793816     far: 494      close: 0.00202429
+Vector: 21437000     far: 511      close: 0.00195695
+Vector: 22328084     far: 574      close: 0.00174216
+Vector: 23279911     far: 591      close: 0.00169205
+Vector: 24454827     far: 544      close: 0.00183824
+Vector: 24741685     far: 408      close: 0.00245098
+Vector: 26369932     far: 463      close: 0.00215983
+Vector: 26955321     far: 549      close: 0.00182149
+Vector: 27111653     far: 481      close: 0.00207900
+Vector: 27478849     far: 452      close: 0.00221239
+Vector: 30313925     far: 469      close: 0.00213220
+Vector: 30495974     far: 483      close: 0.00207039
+Vector: 31354534     far: 509      close: 0.00196464
+Vector: 36412963     far: 516      close: 0.00193798
+Vector: 40341246     far: 559      close: 0.00178891
+Vector: 50393960     far: 365      close: 0.00273973
+Vector: 55252378     far: 625      close: 0.00160000
+Vector: 55384770     far: 762      close: 0.00131234
+Vector: 59353626     far: 497      close: 0.00201207
+Vector: 60146669     far: 652      close: 0.00153374
+Vector: 61485111     far: 638      close: 0.00156740
+Vector: 62083093     far: 686      close: 0.00145773
+Vector: 62581962     far: 430      close: 0.00232558
+Vector: 63508150     far: 630      close: 0.00158730
+Vector: 65502805     far: 684      close: 0.00146199
+Vector: 69402000     far: 471      close: 0.00212314
+Vector: 71062740     far: 613      close: 0.00163132
+Vector: 74286565     far: 448      close: 0.00223214
+Vector: 81231895     far: 641      close: 0.00156006
+Vector: 84510198     far: 633      close: 0.00157978
+Vector: 89318473     far: 491      close: 0.00203666
+Vector: 105673792    far: 688      close: 0.00145349
+Vector: 114463083    far: 509      close: 0.00196464
+Vector: 121887978    far: 537      close: 0.00186220
+Vector: 130584631    far: 429      close: 0.00233100
+Vector: 137365854    far: 500      close: 0.00200000
+Vector: 138034438    far: 581      close: 0.00172117
+Vector: 139750288    far: 497      close: 0.00201207
+Vector: 156001879    far: 598      close: 0.00167224
+Vector: 159323374    far: 691      close: 0.00144718
+Vector: 161739794    far: 561      close: 0.00178253
+Vector: 171592863    far: 840      close: 0.00119048
+Vector: 179980928    far: 642      close: 0.00155763
+Vector: 198693040    far: 619      close: 0.00161551
+Vector: 211089576    far: 551      close: 0.00181488
+Vector: 214924791    far: 699      close: 0.00143062
+Vector: 223048206    far: 561      close: 0.00178253
+Vector: 233693208    far: 480      close: 0.00208333
+Vector: 250530254    far: 624      close: 0.00160256
+Vector: 263553997    far: 538      close: 0.00185874
+Vector: 297174372    far: 491      close: 0.00203666
+Vector: 297623133    far: 486      close: 0.00205761
+Vector: 309206712    far: 523      close: 0.00191205
+Vector: 353466012    far: 457      close: 0.00218818
+Vector: 361943754    far: 581      close: 0.00172117
+Vector: 378130010    far: 592      close: 0.00168919
+3. Betweenness centrality report:
+Vector: 586 , betweeness: 0.02203238871660848
+Vector: 2038 , betweeness: 0.012059628524434563
+Vector: 2419 , betweeness: 0.008386480213757729
+Vector: 3839 , betweeness: 0.02241595641630748
+Vector: 11628 , betweeness: 0.01369141653501843
+Vector: 13055 , betweeness: 0.008409234229841567
+Vector: 13405 , betweeness: 0.014539816277572991
+Vector: 15023 , betweeness: 0.012582970894362855
+Vector: 113963 , betweeness: 0.014494308245405313
+Vector: 174853 , betweeness: 0.020173060545186226
+Vector: 229523 , betweeness: 0.035639290334744084
+Vector: 428333 , betweeness: 0.021421280856071097
+Vector: 621713 , betweeness: 0.034355313712870324
+Vector: 627363 , betweeness: 0.1010603371495069
+Vector: 643443 , betweeness: 0.013164823591363875
+Vector: 655613 , betweeness: 0.04993531358284737
+Vector: 656933 , betweeness: 0.00834097218159005
+Vector: 663273 , betweeness: 0.008457992835735508
+Vector: 697163 , betweeness: 0.018222716309428615
+Vector: 758185 , betweeness: 0.015768533146100286
+Vector: 782329 , betweeness: 0.01560275388606089
+Vector: 789314 , betweeness: 0.011315247141120408
+Vector: 793219 , betweeness: 0.03163133293026219
+Vector: 806170 , betweeness: 0.02327735845376709
+Vector: 813491 , betweeness: 0.012612226057899219
+Vector: 813715 , betweeness: 0.016977746572270004
+Vector: 817386 , betweeness: 0.01770912566067911
+Vector: 821449 , betweeness: 0.018248720899238714
+Vector: 849131 , betweeness: 0.05297785059062925
+Vector: 949161 , betweeness: 0.005402453533048583
+Vector: 992031 , betweeness: 0.01798542442741144
+Vector: 1018211 , betweeness: 0.008136186036835502
+Vector: 1375251 , betweeness: 0.010258810680085035
+Vector: 1594501 , betweeness: 0.007053744985990027
+Vector: 1847381 , betweeness: 0.01155904017059011
+Vector: 1950981 , betweeness: 0.008165441200371866
+Vector: 1976611 , betweeness: 0.011334750583477984
+Vector: 2195241 , betweeness: 0.017159778700940716
+Vector: 2384071 , betweeness: 0.0561439094000091
+Vector: 3361871 , betweeness: 0.01280726048147498
+Vector: 3375371 , betweeness: 0.008022415956416307
+Vector: 3388481 , betweeness: 0.007525078176298117
+Vector: 3558801 , betweeness: 0.020969451108120582
+Vector: 3594701 , betweeness: 0.021733335933792314
+Vector: 3640341 , betweeness: 0.012202653768390121
+Vector: 4044361 , betweeness: 0.038174737841228976
+Vector: 4958131 , betweeness: 0.007437312685689024
+Vector: 5027041 , betweeness: 0.007265032278197102
+Vector: 5362182 , betweeness: 0.010307569285978976
+Vector: 5385852 , betweeness: 0.01010603371495069
+Vector: 5435752 , betweeness: 0.010824410508454741
+Vector: 5497452 , betweeness: 0.009927252160006242
+Vector: 5541662 , betweeness: 0.010115785436129477
+Vector: 5637652 , betweeness: 0.023462641156164064
+Vector: 5676102 , betweeness: 0.0768598157574812
+Vector: 5725652 , betweeness: 0.006553156632145574
+Vector: 5746402 , betweeness: 0.011448520663897177
+Vector: 5796972 , betweeness: 0.012852768513642658
+Vector: 5849202 , betweeness: 0.009251132824943602
+Vector: 5963912 , betweeness: 0.006358122208569812
+Vector: 6217542 , betweeness: 0.006471892288989006
+Vector: 6244092 , betweeness: 0.006540154337240523
+Vector: 6271152 , betweeness: 0.010473348546018372
+Vector: 6339822 , betweeness: 0.02101495914028826
+Vector: 6376372 , betweeness: 0.0124919548300275
+Vector: 6515122 , betweeness: 0.009725716588977954
+Vector: 6813682 , betweeness: 0.01419850603631541
+Vector: 7434252 , betweeness: 0.014946137993355828
+Vector: 7684302 , betweeness: 0.008828558240529454
+Vector: 7921352 , betweeness: 0.00881230537189814
+Vector: 7924912 , betweeness: 0.008405983656115305
+Vector: 8091052 , betweeness: 0.012326175569988104
+Vector: 8168192 , betweeness: 0.021053966025003413
+Vector: 9184682 , betweeness: 0.011217729929332527
+Vector: 9235972 , betweeness: 0.010460346251113322
+Vector: 9363302 , betweeness: 0.0133631085886659
+Vector: 9460662 , betweeness: 0.04484166455379374
+Vector: 9462782 , betweeness: 0.006367873929748601
+Vector: 9528212 , betweeness: 0.005639745415065759
+Vector: 9535182 , betweeness: 0.00834097218159005
+Vector: 10359172 , betweeness: 0.008035418251321359
+Vector: 10461992 , betweeness: 0.008418985951020355
+Vector: 10751252 , betweeness: 0.01741982459904173
+Vector: 10760422 , betweeness: 0.013311099409045696
+Vector: 11323282 , betweeness: 0.004511796332052607
+Vector: 11336782 , betweeness: 0.07252680098037304
+Vector: 11362622 , betweeness: 0.007115505886789018
+Vector: 11375732 , betweeness: 0.01579778830963665
+Vector: 12101862 , betweeness: 0.03395874371826627
+Vector: 12199652 , betweeness: 0.0552207464617505
+Vector: 12307282 , betweeness: 0.014305774969282078
+Vector: 13170222 , betweeness: 0.01153628615450627
+Vector: 13434092 , betweeness: 0.016743705263979093
+Vector: 13535762 , betweeness: 0.023391128534186283
+Vector: 13753352 , betweeness: 0.008578264063607227
+Vector: 13837292 , betweeness: 0.012108387130328503
+Vector: 13910012 , betweeness: 0.015885553800245745
+Vector: 14048987 , betweeness: 0.010028019945520385
+Vector: 14058661 , betweeness: 0.008656277833037532
+Vector: 14066988 , betweeness: 0.00705699555971629
+Vector: 14079172 , betweeness: 0.028536786742860115
+Vector: 14091119 , betweeness: 0.014032726776276013
+Vector: 14111698 , betweeness: 0.03474538256002185
+Vector: 14124059 , betweeness: 0.04557629421592911
+Vector: 14154082 , betweeness: 0.006198844095982941
+Vector: 14161531 , betweeness: 0.007151262197777908
+Vector: 14209885 , betweeness: 0.014270018658293188
+Vector: 14278964 , betweeness: 0.013463876374180042
+Vector: 14290339 , betweeness: 0.006371124503474863
+Vector: 14297283 , betweeness: 0.009891495849017351
+Vector: 14344319 , betweeness: 0.0057470143480324275
+Vector: 14352556 , betweeness: 0.029697241563135895
+Vector: 14371227 , betweeness: 0.006224848685793043
+Vector: 14405111 , betweeness: 0.008285712428243585
+Vector: 14616067 , betweeness: 0.0070212392487274
+Vector: 14622630 , betweeness: 0.0033448403643243033
+Vector: 14874480 , betweeness: 0.01825197147296498
+Vector: 14940487 , betweeness: 0.00553247648209909
+Vector: 14964767 , betweeness: 0.024190769670846903
+Vector: 14976534 , betweeness: 0.004589810101482912
+Vector: 14995801 , betweeness: 0.006913970315760732
+Vector: 15033883 , betweeness: 0.004521548053231395
+Vector: 15258591 , betweeness: 0.009758222326240582
+Vector: 15294787 , betweeness: 0.0031985645466424822
+Vector: 15335141 , betweeness: 0.003708904621665724
+Vector: 15363619 , betweeness: 0.0048531065733101895
+Vector: 15416485 , betweeness: 0.03425779650108244
+Vector: 15437804 , betweeness: 0.003575631098888954
+Vector: 15438005 , betweeness: 0.011679311398461829
+Vector: 15468786 , betweeness: 0.00957619019756987
+Vector: 15477919 , betweeness: 0.0078046275167567075
+Vector: 15736732 , betweeness: 0.007356048342532457
+Vector: 15948437 , betweeness: 0.01567426650803867
+Vector: 16008396 , betweeness: 0.007258531130744576
+Vector: 16120265 , betweeness: 0.03708254506920471
+Vector: 16186995 , betweeness: 0.005337442058523329
+Vector: 16211399 , betweeness: 0.0036633965894980465
+Vector: 16265198 , betweeness: 0.005291934026355652
+Vector: 16304817 , betweeness: 0.014107489971980055
+Vector: 16338664 , betweeness: 0.005529225908372828
+Vector: 16439471 , betweeness: 0.006166338358720314
+Vector: 16511126 , betweeness: 0.0037804172436435033
+Vector: 16573941 , betweeness: 0.015150924138110377
+Vector: 16583846 , betweeness: 0.0038486792918950193
+Vector: 16624991 , betweeness: 0.005360196074607168
+Vector: 16727022 , betweeness: 0.01039858535031433
+Vector: 16751855 , betweeness: 0.004459787152432404
+Vector: 16930986 , betweeness: 0.019363667687346816
+Vector: 16959786 , betweeness: 0.009663955688178964
+Vector: 16993577 , betweeness: 0.012634980073983058
+Vector: 17034634 , betweeness: 0.004375272235549574
+Vector: 17093224 , betweeness: 0.0055259753346465655
+Vector: 17220817 , betweeness: 0.006384126798379914
+Vector: 17408993 , betweeness: 0.002954771517172781
+Vector: 17449991 , betweeness: 0.007183767935040534
+Vector: 17606033 , betweeness: 0.002613461275915199
+Vector: 17800533 , betweeness: 0.006224848685793043
+Vector: 17800797 , betweeness: 0.028110961584719703
+Vector: 17841702 , betweeness: 0.0034586104447434972
+Vector: 17885184 , betweeness: 0.0024314291472444884
+Vector: 18041656 , betweeness: 0.003221318562726321
+Vector: 18139167 , betweeness: 0.00346186101846976
+Vector: 18193396 , betweeness: 0.004245249286499067
+Vector: 18208247 , betweeness: 0.00297752553325662
+Vector: 18296076 , betweeness: 0.003793419538548554
+Vector: 18432997 , betweeness: 0.00289301061637379
+Vector: 18498684 , betweeness: 0.012537462862195177
+Vector: 18852278 , betweeness: 0.02101495914028826
+Vector: 19459100 , betweeness: 0.002366417672719235
+Vector: 19658936 , betweeness: 0.00275973709359702
+Vector: 20005307 , betweeness: 0.004329764203381897
+Vector: 20282100 , betweeness: 0.005210669683199084
+Vector: 20290970 , betweeness: 0.0033838472490394554
+Vector: 20793816 , betweeness: 0.008256457264707221
+Vector: 21437000 , betweeness: 0.0058542832809990964
+Vector: 22328084 , betweeness: 0.002213640707584889
+Vector: 23279911 , betweeness: 0.002343663656635396
+Vector: 24454827 , betweeness: 0.0029320175010889423
+Vector: 24741685 , betweeness: 0.03137453760588744
+Vector: 26369932 , betweeness: 0.0052431754204617115
+Vector: 26955321 , betweeness: 0.002801994552038435
+Vector: 27111653 , betweeness: 0.00951442929677088
+Vector: 27478849 , betweeness: 0.03736859555711583
+Vector: 30313925 , betweeness: 0.012534212288468915
+Vector: 30495974 , betweeness: 0.0058315292649152575
+Vector: 31354534 , betweeness: 0.006130582047731425
+Vector: 36412963 , betweeness: 0.00429725846611927
+Vector: 40341246 , betweeness: 0.0033448403643243033
+Vector: 50393960 , betweeness: 0.09066500237291882
+Vector: 55252378 , betweeness: 0.0016252868631313427
+Vector: 55384770 , betweeness: 0.0023404130829091335
+Vector: 59353626 , betweeness: 0.0039461965036829
+Vector: 60146669 , betweeness: 0.0014627581768182085
+Vector: 61485111 , betweeness: 7.898894154818325E-4
+Vector: 62083093 , betweeness: 0.0016805466164778082
+Vector: 62581962 , betweeness: 0.02957371976153791
+Vector: 63508150 , betweeness: 0.0011929605575384055
+Vector: 65502805 , betweeness: 0.0015050156352596233
+Vector: 69402000 , betweeness: 0.013148570722732563
+Vector: 71062740 , betweeness: 0.009569689050117345
+Vector: 74286565 , betweeness: 0.009608695934832498
+Vector: 81231895 , betweeness: 0.0013457375226727517
+Vector: 84510198 , betweeness: 6.208595817161729E-4
+Vector: 89318473 , betweeness: 0.0028540037316586377
+Vector: 105673792 , betweeness: 0.0013782432599353787
+Vector: 114463083 , betweeness: 0.001768312107086901
+Vector: 121887978 , betweeness: 0.001303480064231337
+Vector: 130584631 , betweeness: 0.027321072169237872
+Vector: 137365854 , betweeness: 0.0012157145736222442
+Vector: 138034438 , betweeness: 8.516503162808236E-4
+Vector: 139750288 , betweeness: 0.004986380096086959
+Vector: 156001879 , betweeness: 7.44381383314155E-4
+Vector: 159323374 , betweeness: 0.0012189651473485071
+Vector: 161739794 , betweeness: 5.395952385596058E-4
+Vector: 171592863 , betweeness: 3.965699946040476E-4
+Vector: 179980928 , betweeness: 8.353974476495101E-4
+Vector: 198693040 , betweeness: 3.023033565424297E-4
+Vector: 211089576 , betweeness: 0.0010011767076889071
+Vector: 214924791 , betweeness: 2.2103901338586262E-4
+Vector: 223048206 , betweeness: 2.1778843965959991E-4
+Vector: 233693208 , betweeness: 0.003809672407179867
+Vector: 250530254 , betweeness: 2.405424557434387E-4
+Vector: 263553997 , betweeness: 0.0025874566861050973
+Vector: 297174372 , betweeness: 0.00964770281954765
+Vector: 297623133 , betweeness: 0.0014660087505444712
+Vector: 309206712 , betweeness: 4.225745844141491E-4
+Vector: 353466012 , betweeness: 0.008877316846423395
+Vector: 361943754 , betweeness: 1.300229490505074E-4
+Vector: 378130010 , betweeness: 0.0
+Total SP num: 307638

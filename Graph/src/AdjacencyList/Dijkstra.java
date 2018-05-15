@@ -24,15 +24,18 @@ public class Dijkstra{
     public static void main(String[] arg){
 
         Dijkstra obj = new Dijkstra();
-        int i;
+        int i, j;
         double far;
         // Create a new graph.
         Graph g = obj.createGraph();
+        // 1. Degree centrality
+        System.out.println("1. Degree centrality report:");
         System.out.println("Max degree of the Graph is: "+g.calcDegree());
         System.out.println("Vertex num is: "+g.verNum);
         System.out.println("Edge num is: "+g.edgeNum);
         // Calculate Dijkstra.
         Map<String, Double> close = new HashMap<>();
+        Map<String, Integer> betweeness = new HashMap<>();
 //        obj.calcSP(g, g.getVertex("159323374"));
 //////        // Print the minimum Distance.
 //        i = 1;
@@ -61,11 +64,23 @@ public class Dijkstra{
 //            }
 //            System.out.println("" + v);
 //        }
+        List<String> vertexes = new ArrayList<>(g.getVertices().keySet());
+        Collections.sort(vertexes, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                int o1i = Integer.valueOf(o1);
+                int o2i = Integer.valueOf(o2);
+                if (o1i > o2i) return 1;
+                if (o1i == o2i) return 0;
+                return -1;
+            }
+        });
 
-        for (String vertex: g.getVertices().keySet()) {
+        // 2. Closeness centrality
+        System.out.println("2. Closeness centrality report:");
+        for (String vertex: vertexes) {
             far = 0;
             obj.calcSP(g, g.getVertex(vertex));
-            i = 1;
 //        // Print the minimum Distance.
             for (Vertex v : g.getVertices().values()) {
 //                System.out.print("Vertex " + i + " - " + v + " , Dist - " + v.minDistance + " , Path - ");
@@ -79,6 +94,33 @@ public class Dijkstra{
             System.out.printf("Vector: %-12s far: %-8d close: %.8f\n", vertex, (int)far, 1/far);
             close.put(vertex, 1/far);
         }
+
+        // 3. Betweenness centrality:
+        for (String v: vertexes) {
+            betweeness.put(v, 0);
+        }
+        int ttlSPNum = 0;
+        System.out.println("3. Betweenness centrality report:");
+        for (i = 0; i < vertexes.size(); i++) {
+            obj.calcSP(g, g.getVertex(vertexes.get(i)));
+            for (j = i+1; j < vertexes.size(); j++) {
+                ttlSPNum += g.getVertex(vertexes.get(j)).paths.size();
+//                for (int k = 0; k < vertexes.size(); k++) {
+//                    Vertex kv = g.getVertex(vertexes.get(k));
+//                    if (k == i || k == j) continue;
+                for (ArrayList<Vertex> p: g.getVertex(vertexes.get(j)).paths) {
+                    for(Vertex vv: p) {
+                        betweeness.put(vv.name, betweeness.get(vv.name)+1);
+                    }
+                }
+            }
+        }
+
+        for (String v: vertexes) {
+            System.out.printf("Vector: %-12s betweeness: %.8f\n", v, Double.valueOf(betweeness.get(v)*1.000/ttlSPNum));
+        }
+        System.out.println("Total SP num: "+ttlSPNum);
+
 //
 //        System.out.println("---------**********------------");
 //        Edge[] delEdges = g.delEdge("v0", "v7");
@@ -131,9 +173,6 @@ public class Dijkstra{
 //				System.out.println(line);
                 String src = line.split(" ")[0];
                 String dst = line.split(" ")[1];
-//                vertexNames.add(src);
-//                vertexNames.add(dst);
-//                System.out.println(src+" "+dst);
                 g.addEdge(src, dst, 1);
                 line=in.readLine();
             }
@@ -161,7 +200,7 @@ public class Dijkstra{
     }
 
     public void calcSP(Graph g, Vertex source){
-        // Algo:
+        // Algorithm:
         // 1. Take the unvisited node with minimum weight.
         // 2. Visit all its neighbours.
         // 3. Update the distances for all the neighbours (In the Priority Queue).
@@ -175,9 +214,7 @@ public class Dijkstra{
         queue.add(source);
 
         while(!queue.isEmpty()){
-
             Vertex u = queue.poll();
-
             for(Edge neighbour:u.neighbours){
 //                System.out.println("Scanning vector: "+neighbour.target.name);
                 Double newDist = u.minDistance+neighbour.weight;
