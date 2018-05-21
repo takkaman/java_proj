@@ -2,17 +2,7 @@ package AdjacencyList;
 
 import java.util.*;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileWriter;
 
 /**
  * <p>
@@ -24,18 +14,29 @@ public class Dijkstra{
     public static void main(String[] arg){
 
         Dijkstra obj = new Dijkstra();
-        int i, j;
+        int i, j, k = 1;
         double far;
         // Create a new graph.
-        Graph g = obj.createGraph();
+        Graph gInit = obj.createGraph();
+        List<Graph> gg = obj.createGraphs(gInit);
+        System.out.println(gg.size());
         // 1. Degree centrality
-        System.out.println("1. Degree centrality report:");
-        System.out.println("Max degree of the Graph is: "+g.calcDegree());
-        System.out.println("Vertex num is: "+g.verNum);
-        System.out.println("Edge num is: "+g.edgeNum);
-        // Calculate Dijkstra.
-        Map<String, Double> close = new HashMap<>();
-        Map<String, Integer> betweeness = new HashMap<>();
+        for (Graph g: gg) {
+            System.out.println("Component: "+k);
+            k++;
+            System.out.println("1. Degree centrality report:");
+            System.out.println("Max degree of the Graph is: " + g.calcDegree());
+            System.out.println("Vertex num is: " + g.verNum);
+            System.out.println("Edge num is: " + g.edgeNum);
+            List<Vertex> degreeList = g.getDegrees();
+            for (i = 0; i < degreeList.size(); i++) {
+                if (i == 5) break;
+                System.out.println(degreeList.get(i).name + "=" + degreeList.get(i).degree);
+            }
+
+            // Calculate Dijkstra.
+            Map<String, Double> close = new HashMap<>();
+            Map<String, Integer> betweeness = new HashMap<>();
 //        obj.calcSP(g, g.getVertex("159323374"));
 //////        // Print the minimum Distance.
 //        i = 1;
@@ -64,62 +65,94 @@ public class Dijkstra{
 //            }
 //            System.out.println("" + v);
 //        }
-        List<String> vertexes = new ArrayList<>(g.getVertices().keySet());
-        Collections.sort(vertexes, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                int o1i = Integer.valueOf(o1);
-                int o2i = Integer.valueOf(o2);
-                if (o1i > o2i) return 1;
-                if (o1i == o2i) return 0;
-                return -1;
-            }
-        });
+            List<String> vertexes = new ArrayList<>(g.getVertices().keySet());
+            Collections.sort(vertexes, new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    int o1i = Integer.valueOf(o1);
+                    int o2i = Integer.valueOf(o2);
+                    if (o1i > o2i) return 1;
+                    if (o1i == o2i) return 0;
+                    return -1;
+                }
+            });
 
-        // 2. Closeness centrality
-        System.out.println("2. Closeness centrality report:");
-        for (String vertex: vertexes) {
-            far = 0;
-            obj.calcSP(g, g.getVertex(vertex));
+            // 2. Closeness centrality
+            System.out.println("2. Closeness centrality report:");
+            for (String vertex : vertexes) {
+                far = 0;
+                obj.calcSP(g, g.getVertex(vertex));
 //        // Print the minimum Distance.
-            for (Vertex v : g.getVertices().values()) {
+                for (Vertex v : g.getVertices().values()) {
 //                System.out.print("Vertex " + i + " - " + v + " , Dist - " + v.minDistance + " , Path - ");
 //                i++;
-                far += v.minDistance;
+                    far += v.minDistance;
 //                for (Vertex pathvert : v.path) {
 //                    System.out.print(pathvert + " ");
 //                }
 //                System.out.println("" + v);
+                }
+                //System.out.printf("Vector: %-12s far: %-8d close: %.8f\n", vertex, (int)far, 1/far);
+                close.put(vertex, 1 / far);
             }
-            System.out.printf("Vector: %-12s far: %-8d close: %.8f\n", vertex, (int)far, 1/far);
-            close.put(vertex, 1/far);
-        }
+            Double MaxValueMap = (Collections.max(close.values()));
+            int n = 5;
+            List<Map.Entry<String, Double>> greatest = findGreatest(close, 5);
+            System.out.println("top" + n + "entries");
+            for (Map.Entry<String, Double> entry : greatest) {
+                System.out.println(entry);
+            }
+            for (Map.Entry<String, Double> entry : close.entrySet()) {
+                if (entry.getValue() == MaxValueMap) {
+                    System.out.println(entry.getKey());
+                }
+            }
 
-        // 3. Betweenness centrality:
-        for (String v: vertexes) {
-            betweeness.put(v, 0);
-        }
-        int ttlSPNum = 0;
-        System.out.println("3. Betweenness centrality report:");
-        for (i = 0; i < vertexes.size(); i++) {
-            obj.calcSP(g, g.getVertex(vertexes.get(i)));
-            for (j = i+1; j < vertexes.size(); j++) {
-                ttlSPNum += g.getVertex(vertexes.get(j)).paths.size();
+            // 3. Betweenness centrality:
+            for (String v : vertexes) {
+                betweeness.put(v, 0);
+            }
+            int ttlSPNum = 0;
+            System.out.println("3. Betweenness centrality report:");
+            for (i = 0; i < vertexes.size(); i++) {
+                obj.calcSP(g, g.getVertex(vertexes.get(i)));
+                for (j = i + 1; j < vertexes.size(); j++) {
+                    ttlSPNum += g.getVertex(vertexes.get(j)).paths.size();
 //                for (int k = 0; k < vertexes.size(); k++) {
 //                    Vertex kv = g.getVertex(vertexes.get(k));
 //                    if (k == i || k == j) continue;
-                for (ArrayList<Vertex> p: g.getVertex(vertexes.get(j)).paths) {
-                    for(Vertex vv: p) {
-                        betweeness.put(vv.name, betweeness.get(vv.name)+1);
+                    for (ArrayList<Vertex> p : g.getVertex(vertexes.get(j)).paths) {
+                        for (Vertex vv : p) {
+                            betweeness.put(vv.name, betweeness.get(vv.name) + 1);
+                        }
                     }
                 }
             }
+            for (String v : vertexes) {
+                // System.out.printf("Vector: %-12s betweeness: %.8f\n", v, Double.valueOf(betweeness.get(v)*1.000/ttlSPNum));
+
+                betweeness.put(v, betweeness.get(v));
+            }
+            //System.out.println(betweeness);
+            //System.out.println("Total SP num: "+ttlSPNum);
+            //betweeness.put(vertexes, Double.valueOf(betweeness.get()*1.000/ttlSPNum));
+            int maxxValueInMap = (Collections.max(betweeness.values()));  // This will return max value in the Hashmap
+            for (Map.Entry<String, Integer> entry : betweeness.entrySet()) {  // Itrate through hashmap
+                if (entry.getValue() == maxxValueInMap) {
+                    System.out.println(entry.getKey());     // Print the key with max value
+                }
+            }
+            int x = 5;
+            List<Map.Entry<String, Integer>> greatest2 = findGreatest(betweeness, 5);
+            System.out.println("top" + n + "entries");
+            for (Map.Entry<String, Integer> entry : greatest2) {
+                System.out.println(entry);
+            }
         }
 
-        for (String v: vertexes) {
-            System.out.printf("Vector: %-12s betweeness: %.8f\n", v, Double.valueOf(betweeness.get(v)*1.000/ttlSPNum));
-        }
-        System.out.println("Total SP num: "+ttlSPNum);
+
+
+
 
 //
 //        System.out.println("---------**********------------");
@@ -163,7 +196,7 @@ public class Dijkstra{
 //			e.printStackTrace();
 //        }
 
-        fileName="./78813.edges";
+        fileName="./788813.edges";
 //        List<String> vertexNames = new ArrayList<>();
         try
         {
@@ -198,6 +231,73 @@ public class Dijkstra{
 //
         return g;
     }
+
+    public List<Graph> createGraphs(Graph g) {
+        List<Graph> gg = new ArrayList<>();
+        Graph tmpG = g, tmp;
+
+        boolean hasDisconnG = true;
+        while (hasDisconnG) {
+            List<Vertex> vertexes = new ArrayList<>(tmpG.getVertices().values());
+            calcSP(tmpG, vertexes.get(0));
+            gg.add(tmpG);
+            hasDisconnG = false;
+            List<Vertex> vv = new ArrayList<>();
+            for (Vertex v : tmpG.getVertices().values()) {
+                if (v.minDistance == Double.POSITIVE_INFINITY) {
+                    // System.out.println("Vertex: " + v.name + ", dist: " + v.minDistance);
+                    vv.add(v);
+                    hasDisconnG = true;
+                }
+            }
+
+            if (hasDisconnG) {
+                tmp = new Graph();
+                for (Vertex v: vv) {
+                    tmpG.removeVertex(v.name);
+                    for (Edge e: v.neighbours) {
+                        tmp.addEdge(v.name, e.target.name, 1);
+                    }
+                }
+                tmpG = tmp;
+            }
+        }
+        return gg;
+    }
+
+    private static <K, V extends Comparable<? super V>> List<Map.Entry<K, V>>
+    findGreatest(Map<K, V> map, int n)
+    {
+        Comparator<? super Map.Entry<K, V>> comparator =
+                new Comparator<Map.Entry<K, V>>()
+                {
+                    @Override
+                    public int compare(Map.Entry<K, V> e0, Map.Entry<K, V> e1)
+                    {
+                        V v0 = e0.getValue();
+                        V v1 = e1.getValue();
+                        return v0.compareTo(v1);
+                    }
+                };
+        PriorityQueue<Map.Entry<K, V>> highest =
+                new PriorityQueue<Map.Entry<K,V>>(n, comparator);
+        for (Map.Entry<K, V> entry : map.entrySet())
+        {
+            highest.offer(entry);
+            while (highest.size() > n)
+            {
+                highest.poll();
+            }
+        }
+
+        List<Map.Entry<K, V>> result = new ArrayList<Map.Entry<K,V>>();
+        while (highest.size() > 0)
+        {
+            result.add(highest.poll());
+        }
+        return result;
+    }
+
 
     public void calcSP(Graph g, Vertex source){
         // Algorithm:

@@ -1,12 +1,10 @@
 package AdjacencyList;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class Graph {
     private Map<String, Vertex> vertices = new LinkedHashMap<String, Vertex>();
+    private List<Vertex> degrees = new ArrayList<>();
     public int edgeNum;
     public int verNum;
 //    public Graph(String[] vertexNames){
@@ -29,9 +27,22 @@ public class Graph {
         return degree;
     }
 
+    public List<Vertex> getDegrees() {
+        List<Vertex> list = new ArrayList<Vertex>(vertices.values());
+        Collections.sort(list, new Comparator<Vertex>() {
+            @Override
+            public int compare(Vertex o1, Vertex o2) {
+                if (o1.degree < o2.degree) return 1;
+                if (o1.degree == o2.degree) return 0;
+                return -1;
+            }
+        });
+        return list;
+    }
+
     public void addEdge(String srcName, String destName, int weight){
 //        System.out.println("Adding edge: "+srcName+"-"+destName);
-        edgeNum++;
+
         Vertex s, d;
         if (!vertices.containsKey(srcName)) {
             s = new Vertex(srcName);
@@ -50,19 +61,28 @@ public class Graph {
 
         boolean dup = false;
         for(Edge e: s.neighbours) {
-            if (e.target.name == destName) {
+            if (e.target.name.compareTo(destName) == 0) {
                 dup = true;
                 break;
             }
         }
         if (dup) {
-            System.out.println("Duplicated edge add fpr Vertex: "+srcName+" , "+destName);
+            // System.out.println("Duplicated edge add fpr Vertex: "+srcName+" , "+destName);
             return;
         }
+//        if (srcName.compareTo("11336782") == 0) {
+//            System.out.println(srcName+" "+destName);
+//        }
+//        if (destName.compareTo("11336782") == 0) {
+//            System.out.println(destName+" "+srcName);
+//        }
+        edgeNum++;
         Edge new_edge = new Edge(vertices.get(destName),weight);
         s.neighbours.add(new_edge);
+        s.setDegree();
         new_edge = new Edge(vertices.get(srcName),weight);
         d.neighbours.add(new_edge);
+        d.setDegree();
     }
 
     /**
@@ -121,5 +141,9 @@ public class Graph {
 
     public Vertex getVertex(String vertName){
         return vertices.get(vertName);
+    }
+
+    public void removeVertex(String vertName){
+        vertices.remove(vertName);
     }
 }

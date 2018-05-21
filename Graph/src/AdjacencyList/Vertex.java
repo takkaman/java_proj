@@ -5,10 +5,11 @@ public class Vertex implements Comparable<Vertex>{
 
     public final String name;
     public ArrayList<Edge> neighbours;
+    public int degree;
     public ArrayList<Vertex> path;
     public ArrayList<ArrayList<Vertex>> paths;
     public int pathCnt;
-    public double minDistance = Double.POSITIVE_INFINITY;
+    public double minDistance;
     public Vertex previous;
 
     public int compareTo(Vertex other){
@@ -30,8 +31,13 @@ public class Vertex implements Comparable<Vertex>{
     public double getMinDistance() {
         return minDistance;
     }
+
     public void setMinDistance(double minDistance) {
         this.minDistance = minDistance;
+    }
+
+    public void setDegree() {
+        this.degree = this.neighbours.size();
     }
 
 }
