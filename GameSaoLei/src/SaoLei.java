@@ -49,7 +49,7 @@ public class SaoLei implements ActionListener {
     // end Leo
     final int row = 20;// 设置行数
     final int col = 20;// 设置列数
-    final int lei = 1;// 设置地雷数
+    final int lei = 10;// 设置地雷数
     final int leinum = 10; // 设置地雷序号
     static int usedTime; // 已用时间
     static JLabel timeLabel = new JLabel();// 创建时间标签
@@ -166,6 +166,7 @@ public class SaoLei implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
+        System.out.println("AAA");
         JButton button = (JButton) e.getSource();// 获取按钮
         if (button.equals(retry)) {
             for (int i = 0; i < row; i++) {

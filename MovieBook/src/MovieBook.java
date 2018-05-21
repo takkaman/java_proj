@@ -310,6 +310,7 @@ public class MovieBook {
         System.out.print("Please select one cineplex or enter 0 to return to main menu:");
         Scanner sc = new Scanner(System.in);
         String choice = String.valueOf(sc.nextLine());
+        if (choice.compareTo("0") == 0) MainEntry();
         ShowAllCineplexMovie(cineList.get(Integer.valueOf(choice)-1));
     }
 
@@ -411,13 +412,16 @@ public class MovieBook {
         String email = String.valueOf(sc.nextLine());
         String[] choices;
         int i = 1;
-        while(!emailTickMap.containsKey(email) && email.compareTo("0") != 0) {
-            System.out.println("Empty search result.");
-            System.out.println("Please enter customer's email or 0 to return:");
-            email = String.valueOf(sc.nextLine());
-        }
+//        while(!emailTickMap.containsKey(email) && email.compareTo("0") != 0) {
+//            System.out.println("Empty search result.");
+//            System.out.println("Please enter customer's email or 0 to return:");
+//            email = String.valueOf(sc.nextLine());
+//        }
         if (email.compareTo("0") == 0) {
             MainEntry();
+            return;
+        } else if  (!emailTickMap.containsKey(email)) {
+            System.out.println("Empty search result.");
         } else if (emailTickMap.containsKey(email)) {
             System.out.println("Ticket booking record for Customer with "+email+" is below:");
             List<Ticket> tl = emailTickMap.get(email);
@@ -425,9 +429,13 @@ public class MovieBook {
                 System.out.println(i + " : " + "Movie \""+tk.movie.name+"\" at " + tk.movie.time+" on " + tk.movie.date+" at cineplex \""+tk.movie.cineName);
                 i++;
             }
-            System.out.println("Do you want to delete the booking tickets(s) for this Customer?\nYes - Confirm\nNo - Go to main menu");
+            System.out.println("Do you want to delete the booking tickets(s) for this Customer?\n(Input Guide: Yes/No - First character must be upper case.\nYes - Confirm\nNo - Go to main menu");
             sc = new Scanner(System.in);
             String choice = String.valueOf(sc.nextLine());
+            while (choice.compareTo("yes") == 0) {
+                System.out.println("Do you want to delete the booking tickets(s) for this Customer?\n(Input Guide: Yes/No - First character must be upper case.\nYes - Confirm\nNo - Go to main menu");
+                choice = String.valueOf(sc.nextLine());
+            }
             if (choice.compareTo("Yes") == 0) {
                 CancelBook(tl);
             }
