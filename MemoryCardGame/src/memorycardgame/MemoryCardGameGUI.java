@@ -17,7 +17,7 @@ import javax.swing.Timer;
 public class MemoryCardGameGUI implements ActionListener {
     JFrame frame = new JFrame("MemoryCardGame");
     JPanel myPanel = new JPanel();
-    JButton retry = new JButton("Re-start");
+    JButton retry = new JButton("Restart");
     JPanel lowerPanel = new JPanel();// 创建底部面板
     Container container = new Container();
 
@@ -41,7 +41,7 @@ public class MemoryCardGameGUI implements ActionListener {
         }
     }
 
-    public MemoryCardGameGUI() {
+    public void StartGame() {
         frame.setSize(1000, 800);// 界面大小
         frame.setResizable(false);// 不能被改变大小
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// 关闭
@@ -70,6 +70,7 @@ public class MemoryCardGameGUI implements ActionListener {
         // 翻转按钮
         frame.add(container, BorderLayout.CENTER);// 将按钮添加在布局Center区域
         container.setLayout(new GridLayout(row, col));// 按行列自动分配容器
+        int k = 1;
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 JButton button = new JButton();
@@ -78,6 +79,8 @@ public class MemoryCardGameGUI implements ActionListener {
                 button.addActionListener(this);// 添加按钮动作监听器
                 buttons[i][j] = button;// 定义按钮数组
                 container.add(button);// 添加按钮进入容器
+                buttons[i][j].setText(String.valueOf(k));
+                k++;
             }
         }
     }

@@ -6,6 +6,6 @@ public class Game {
 //        MemoryCardGame newGame = new MemoryCardGame();
 //        newGame.StartGame();
         MemoryCardGameGUI newGame = new MemoryCardGameGUI();
-        //newGame.StartGame();
+        newGame.StartGame();
     }
 }
