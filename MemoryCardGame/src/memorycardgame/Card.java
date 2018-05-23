@@ -1,5 +1,7 @@
 package memorycardgame;
 
+import javax.swing.*;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Card {
@@ -11,10 +13,18 @@ public class Card {
         "Bear", "lion", "bird", "wolf"};
     private String[] animal = new String[16];//reset the order of store 
     private static String ranimal[][] = new String[4][4];//put animal in array
+    public HashMap<String, ImageIcon> imgMap = new HashMap<>();
 
     public Card() {
         rdm = new Random();
-
+        imgMap.put("tiger", new ImageIcon("resources/tiger.jpg"));
+        imgMap.put("elephant", new ImageIcon("resources/elephant.jpg"));
+        imgMap.put("Dog", new ImageIcon("resources/Dog.jpg"));
+        imgMap.put("Cat", new ImageIcon("resources/Cat.jpg"));
+        imgMap.put("Bear", new ImageIcon("resources/Bear.jpg"));
+        imgMap.put("lion", new ImageIcon("resources/lion.jpg"));
+        imgMap.put("bird", new ImageIcon("resources/bird.jpg"));
+        imgMap.put("wolf", new ImageIcon("resources/wolf.jpg"));
     }
 
     public String[][] Random() {
