@@ -50,9 +50,10 @@ public class MemoryCardGameGUI implements ActionListener {
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-
+        frame.setVisible(true);
+        String usrName = JOptionPane.showInputDialog("Please enter your name:");
         // panel setting
-        msgLabel.setText("Welcome to Memory Card Game!");
+        msgLabel.setText("Welcome to Memory Card Game, "+usrName+"!");
         msgLabel1.setText("Please choose the first card by enter a number from 1-16");
         msgLabel2.setText("...");
         lowerPanel.setLayout(new BorderLayout());
