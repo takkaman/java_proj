@@ -3,19 +3,16 @@ package AdjacencyList;
 import java.util.*;
 
 public class Graph {
+    // vertex name to vertex object map
     private Map<String, Vertex> vertices = new LinkedHashMap<String, Vertex>();
+    // vertex degrees list
     private List<Vertex> degrees = new ArrayList<>();
     public int edgeNum;
     public int verNum;
-//    public Graph(String[] vertexNames){
-//        vertices = new LinkedHashMap<String, Vertex>();
-//        for(String name : vertexNames){
-//            vertices.put(name, new Vertex(name));
-//        }
-//    }
 
     public Graph() {}
 
+    // calculate maximum degree of a graph
     public int calcDegree() {
         int degree = 0;
         for (Map.Entry<String, Vertex> v: vertices.entrySet()) {
@@ -27,6 +24,9 @@ public class Graph {
         return degree;
     }
 
+    /**
+     * get degrees of each vertex and return with descending order
+     */
     public List<Vertex> getDegrees() {
         List<Vertex> list = new ArrayList<Vertex>(vertices.values());
         Collections.sort(list, new Comparator<Vertex>() {
@@ -40,10 +40,15 @@ public class Graph {
         return list;
     }
 
+    /**
+     * undirected graph with default weight 1
+     * if edge defined multiple times, choose the 1st one
+     */
     public void addEdge(String srcName, String destName, int weight){
 //        System.out.println("Adding edge: "+srcName+"-"+destName);
 
         Vertex s, d;
+        // create vertex and add into graph if not exist
         if (!vertices.containsKey(srcName)) {
             s = new Vertex(srcName);
             vertices.put(srcName, s);
@@ -59,6 +64,7 @@ public class Graph {
             d = vertices.get(destName);
         }
 
+        // check whether edge duplicated defined
         boolean dup = false;
         for(Edge e: s.neighbours) {
             if (e.target.name.compareTo(destName) == 0) {
@@ -70,12 +76,7 @@ public class Graph {
             // System.out.println("Duplicated edge add fpr Vertex: "+srcName+" , "+destName);
             return;
         }
-//        if (srcName.compareTo("11336782") == 0) {
-//            System.out.println(srcName+" "+destName);
-//        }
-//        if (destName.compareTo("11336782") == 0) {
-//            System.out.println(destName+" "+srcName);
-//        }
+
         edgeNum++;
         Edge new_edge = new Edge(vertices.get(destName),weight);
         s.neighbours.add(new_edge);
@@ -87,12 +88,12 @@ public class Graph {
 
     /**
      * <p>
-     * 删除边， 取得两个顶点即可:
-     * 查找原顶点对应的邻接表的边，边的另一端等于目标顶点就是要删除的边
+     * delete edge， input is src and dst vertex:
+     * traverse adjacent list，find edge with target equals dst and delete
      * <p>
      *
-     * @param src 原顶点
-     * @param dest 目标顶点
+     * @param src source vertex
+     * @param dest target vertex
      * @return
      */
     public Edge[] delEdge(String src, String dest){
@@ -120,9 +121,9 @@ public class Graph {
 
     /**
      *  <p>
-     *  默认最短路径充值，图被算一次选择一个顶点算了一次最短路径后会
-     *  更改最短路径值，要算其他顶点开始的最短路径得重新设置每个顶点最短
-     *  路径的初始值
+     *  reset shortest distance
+     *  need to reset distances once choose another vertex as source vertex
+     *  to calculate dijkstra shortest path
      *  <p>
      */
     public void resetMinDistance(){

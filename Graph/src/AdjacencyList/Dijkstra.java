@@ -22,9 +22,9 @@ public class Dijkstra{
         System.out.println(gg.size());
         // 1. Degree centrality
         for (Graph g: gg) {
-            System.out.println("Component: "+k);
+            System.out.println("======Component: "+k+"======");
             k++;
-            System.out.println("1. Degree centrality report:");
+            System.out.println("1. Degree Centrality report:");
             System.out.println("Max degree of the Graph is: " + g.calcDegree());
             System.out.println("Vertex num is: " + g.verNum);
             System.out.println("Edge num is: " + g.edgeNum);
@@ -37,6 +37,8 @@ public class Dijkstra{
             // Calculate Dijkstra.
             Map<String, Double> close = new HashMap<>();
             Map<String, Integer> betweeness = new HashMap<>();
+            Map<String, Double> katz = new HashMap<>();
+            Queue<Edge> BFSQ;
 //        obj.calcSP(g, g.getVertex("159323374"));
 //////        // Print the minimum Distance.
 //        i = 1;
@@ -78,7 +80,7 @@ public class Dijkstra{
             });
 
             // 2. Closeness centrality
-            System.out.println("2. Closeness centrality report:");
+            System.out.println("2. Closeness Centrality report:");
             for (String vertex : vertexes) {
                 far = 0;
                 obj.calcSP(g, g.getVertex(vertex));
@@ -113,7 +115,7 @@ public class Dijkstra{
                 betweeness.put(v, 0);
             }
             int ttlSPNum = 0;
-            System.out.println("3. Betweenness centrality report:");
+            System.out.println("3. Betweenness Centrality report:");
             for (i = 0; i < vertexes.size(); i++) {
                 obj.calcSP(g, g.getVertex(vertexes.get(i)));
                 for (j = i + 1; j < vertexes.size(); j++) {
@@ -130,15 +132,12 @@ public class Dijkstra{
             }
             for (String v : vertexes) {
                 // System.out.printf("Vector: %-12s betweeness: %.8f\n", v, Double.valueOf(betweeness.get(v)*1.000/ttlSPNum));
-
                 betweeness.put(v, betweeness.get(v));
             }
-            //System.out.println(betweeness);
-            //System.out.println("Total SP num: "+ttlSPNum);
-            //betweeness.put(vertexes, Double.valueOf(betweeness.get()*1.000/ttlSPNum));
-            int maxxValueInMap = (Collections.max(betweeness.values()));  // This will return max value in the Hashmap
+
+            int maxValueInMap = (Collections.max(betweeness.values()));  // This will return max value in the Hashmap
             for (Map.Entry<String, Integer> entry : betweeness.entrySet()) {  // Itrate through hashmap
-                if (entry.getValue() == maxxValueInMap) {
+                if (entry.getValue() == maxValueInMap) {
                     System.out.println(entry.getKey());     // Print the key with max value
                 }
             }
@@ -148,29 +147,74 @@ public class Dijkstra{
             for (Map.Entry<String, Integer> entry : greatest2) {
                 System.out.println(entry);
             }
+
+            // 4. Katz Centrality
+            double alpha = 0.5;
+            System.out.println("4. Katz Centrality report:");
+            for (i = 0; i < vertexes.size(); i++) {
+                obj.calcSP(g, g.getVertex((vertexes.get(i))));
+                double katzVal = 0;
+                //System.out.println("Calc Vertex: "+i);
+//                katzVal = obj.BFS(g, vertexes.get(i));
+                for (j = 0; j < vertexes.size(); j++) {
+//                    for (k = j + 1; k < vertexes.size(); k++) {
+                    for (Edge e : g.getVertex(vertexes.get(j)).neighbours) {
+                        double d = e.target.minDistance;
+                        katzVal += Math.pow(alpha, d);
+                    }
+//                    }
+                }
+                katz.put(g.getVertex(vertexes.get(i)).name, katzVal/2);
+            }
+            Double maxValueInMap1 = (Collections.max(katz.values()));  // This will return max value in the Hashmap
+            for (Map.Entry<String, Double> entry : katz.entrySet()) {  // Itrate through hashmap
+                if (entry.getValue() == maxValueInMap1) {
+                    System.out.println(entry.getKey());     // Print the key with max value
+                }
+            }
+
+            List<Map.Entry<String, Double>> greatest3 = findGreatest(katz, 5);
+            System.out.println("top" + n + "entries");
+            for (Map.Entry<String, Double> entry : greatest3) {
+                System.out.println(entry);
+            }
+
         }
 
-
-
-
-
-//
-//        System.out.println("---------**********------------");
-//        Edge[] delEdges = g.delEdge("v0", "v7");
-//        System.out.println("Deleted edge vertexes: " + delEdges[0].target.name+" , "+ delEdges[1].target.name);
-//        g.resetMinDistance();
-//        obj.calculate(g.getVertex("v0"));
-//        // 删除一条边后的最短路径
-//        for(Vertex v : g.getVertices().values()){
-//            System.out.print("Vertex - " + v + " , Dist - " + v.minDistance
-//                    + " , Path - ");
-//            for (Vertex pathvert : v.path) {
-//                System.out.print(pathvert + " ");
-//            }
-//            System.out.println("" + v);
-//        }
     }
 
+    Double BFS(Graph g, String vName) {
+        double alpha = 0.5;
+        Queue<Edge> queue = new LinkedList<>();
+        double katzVal = 0;
+        Vertex v = g.getVertex(vName);
+        Edge tmpE, tmpLast = v.neighbours.get(0), lastEdge = v.neighbours.get(0);
+        int level = 1;
+        for(Edge e: v.neighbours) {
+            queue.offer(e);
+            lastEdge = e;
+        }
+        while (!queue.isEmpty()) {
+            tmpE = queue.poll();
+            katzVal += Math.pow(alpha, level);
+            for (Edge e: tmpE.target.neighbours) {
+                queue.offer(e);
+                tmpLast = e;
+            }
+            if (tmpE.equals(lastEdge)) {
+                lastEdge = tmpLast;
+                level++;
+                System.out.println("Level up: "+ level);
+            }
+        }
+        return katzVal;
+    }
+
+    /**
+     * init a graph with all vertexes and edges
+     * might contains multiple disconnected graphs
+     * @return
+     */
     public Graph createGraph() {
         String fileName;
 //        fileName ="./428333.edges";
@@ -232,12 +276,24 @@ public class Dijkstra{
         return g;
     }
 
+    /**
+     * recursively get one sub connected graph
+     * add into graph list
+     * until left edges and vertexes are in one connected graph
+     * method:
+     * 1. choose on vertex as source vertex and apply dijkstra shortest path
+     * 2. group vertexes with definite distance to source into a single graph
+     * 3. repeat step 1 to remaining vertexes until all left vertexes has definit distance to source
+     * @param g
+     * @return
+     */
     public List<Graph> createGraphs(Graph g) {
         List<Graph> gg = new ArrayList<>();
         Graph tmpG = g, tmp;
 
         boolean hasDisconnG = true;
         while (hasDisconnG) {
+            // get one vertex as source vertex
             List<Vertex> vertexes = new ArrayList<>(tmpG.getVertices().values());
             calcSP(tmpG, vertexes.get(0));
             gg.add(tmpG);
@@ -265,6 +321,7 @@ public class Dijkstra{
         return gg;
     }
 
+    // sort map according to value
     private static <K, V extends Comparable<? super V>> List<Map.Entry<K, V>>
     findGreatest(Map<K, V> map, int n)
     {
@@ -298,7 +355,16 @@ public class Dijkstra{
         return result;
     }
 
-
+    /**
+     * dijkstra shortest path algorithm
+     *  Algorithm:
+     * 1. Take the unvisited node with minimum weight.
+     * 2. Visit all its neighbours.
+     * 3. Update the distances for all the neighbours (In the Priority Queue).
+     * Repeat the process till all the connected nodes are visited.
+     * @param g
+     * @param source
+     */
     public void calcSP(Graph g, Vertex source){
         // Algorithm:
         // 1. Take the unvisited node with minimum weight.
@@ -319,6 +385,7 @@ public class Dijkstra{
 //                System.out.println("Scanning vector: "+neighbour.target.name);
                 Double newDist = u.minDistance+neighbour.weight;
 
+                // get new shortest path, empty existing path info
                 if(neighbour.target.minDistance>newDist){
                     // Remove the node from the queue to update the distance value.
                     queue.remove(neighbour.target);
@@ -357,6 +424,7 @@ public class Dijkstra{
                     //Reenter the node with new distance.
                     queue.add(neighbour.target);
                 }
+                // get equal cost path, add into path list
                 else if (neighbour.target.minDistance == newDist) {
                     queue.remove(neighbour.target);
                     for(ArrayList<Vertex> p: u.paths) {
