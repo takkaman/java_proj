@@ -26,15 +26,40 @@ public class ValidationServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        String name = request.getParameter("name");
         String email = request.getParameter("email");
+        String addr1 = request.getParameter("addr1");
+        String addr2 = request.getParameter("addr2");
+        String postCode = request.getParameter("postcode");
+        String phone = request.getParameter("phone");
+        String psw1 = request.getParameter("psw1");
+        String psw2 = request.getParameter("psw2");
         EmailValidator emailValidator;
         emailValidator = EmailValidator.getInstance();
-        if(emailValidator.isValid(email)) {
-            RequestDispatcher rd = request.getRequestDispatcher("/compute");
+        if(!emailValidator.isValid(email)) {
+//            response.sendRedirect(this.getServletContext().getContextPath());
+            System.out.println("invalid email match");
+            RequestDispatcher rd = request.getRequestDispatcher("/register.html");
             rd.forward(request, response);
-        } else {
-//            System.out.println("NA");
-            response.sendRedirect(this.getServletContext().getContextPath());
+        }
+        else if(psw1.compareTo(psw2) != 0) {
+            System.out.println("psw not match");
+            RequestDispatcher rd = request.getRequestDispatcher("/register.html");
+            rd.forward(request, response);
+        }
+        else if (!postCode.matches("[0-9]{6}")) {
+            System.out.println("postcode not match");
+            RequestDispatcher rd = request.getRequestDispatcher("/register.html");
+            rd.forward(request, response);           
+        }
+        else if (!phone.matches("[0-9]{8}")) {
+            System.out.println("phone not match");
+            RequestDispatcher rd = request.getRequestDispatcher("/register.html");
+            rd.forward(request, response);           
+        }
+        else {
+            RequestDispatcher rd = request.getRequestDispatcher("/main.jsp");
+            rd.forward(request, response);
         }
     }
             
