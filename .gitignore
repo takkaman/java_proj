@@ -2,3 +2,7 @@
 /.metadata/
 /.recommenders/
 
+/WebShoppingMySQL/nbproject/private/
+/WebShoppingMySQL/build/
+/WebShoppingMySQL/BookManagement/build/
+/WebShoppingMySQL/BookManagement/nbproject/private/
