@@ -10,14 +10,11 @@ package com.aleksi;
  *
  * @author phyan
  */
-import java.awt.print.Book;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.annotation.Resource;
 import javax.servlet.RequestDispatcher;
@@ -25,10 +22,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet
+@WebServlet("/profile")
+public class ProfileServlet extends HttpServlet
 {
     @Resource(name="jdbc/dexin")
     private DataSource itemDB;
@@ -36,19 +34,20 @@ public class LoginServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        CustomerRecord userRcd = new CustomerRecord();
+        System.out.println("profile!!");
         String email = request.getParameter("email");
-        String password = request.getParameter("password");
         String username = "";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         //Statement statement = null;
         ResultSet resultset = null;
-        System.out.println(email + " " + password);
+        System.out.println(email);
+        HttpSession session =request.getSession();
         try{
             connection = itemDB.getConnection();
-            preparedStatement = connection.prepareStatement("select * from customer c where c.email = ? and c.password = ?");
+            preparedStatement = connection.prepareStatement("select * from customer c where c.email = ?");
             preparedStatement.setString(1, email);
-            preparedStatement.setString(2, password);
             resultset = preparedStatement.executeQuery();
             
             //statement = connection.createStatement();
@@ -56,6 +55,13 @@ public class LoginServlet extends HttpServlet
             int count = 0;
             while(resultset.next())
             {
+                userRcd.setAddr1(resultset.getString("addressline1"));
+                userRcd.setAddr2(resultset.getString("addressline2"));
+                userRcd.setEmail(resultset.getString("email"));
+                userRcd.setName(resultset.getString("fullname"));
+                userRcd.setPostcode(resultset.getString("postalcode"));
+                userRcd.setPhone(resultset.getString("mobile"));
+                
                 username = resultset.getString("fullname");
                 System.out.println(username);
                 count++;
@@ -64,9 +70,8 @@ public class LoginServlet extends HttpServlet
                 System.out.println("Not found user");
                 response.sendRedirect(this.getServletContext().getContextPath());
             } else {
-                request.setAttribute("name", username);
-                request.setAttribute("email", email);
-                RequestDispatcher rd = request.getRequestDispatcher("/main.jsp");
+                session.setAttribute("userRcd", userRcd);
+                RequestDispatcher rd = request.getRequestDispatcher("/profile.jsp");
                 rd.forward(request, response);
             }
         }

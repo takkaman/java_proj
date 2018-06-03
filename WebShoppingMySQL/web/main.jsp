@@ -13,8 +13,13 @@
         <title>Shopping Main Page</title>
     </head>
     <body>
-        <p><% String username=(String)request.getAttribute("username"); %>
+        <% String email=(String)request.getAttribute("email"); %>
+        <p><% String username=(String)request.getAttribute("name"); %>
             Welcome! <%=username %>
         </p>
+        <form name="user" action="profile" method="get">
+            <input style="display:none" type="email" name="email" value="<%=email%>" required/><br/>
+            <input type="submit" value="View Profile"/>
+        </form>
     </body>
 </html>
