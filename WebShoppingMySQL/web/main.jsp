@@ -17,6 +17,7 @@
         <p><% String username=(String)request.getAttribute("name"); %>
             Welcome! <%=username %>
         </p>
+        <button onclick="window.location.href='search.html'"> Search a item </button>
         <form name="user" action="profile" method="get">
             <input style="display:none" type="email" name="email" value="<%=email%>" required/><br/>
             <input type="submit" value="View Profile"/>
