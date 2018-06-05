@@ -15,7 +15,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
@@ -28,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
-@WebServlet("/checkout")
-public class OrderServlet extends HttpServlet
+@WebServlet("/addtocart")
+public class CartServlet extends HttpServlet
 {
     @Resource(name="jdbc/dexin")
     private DataSource itemDB;
@@ -38,45 +37,38 @@ public class OrderServlet extends HttpServlet
             throws ServletException, IOException
     {
         HttpSession session =request.getSession();
-        
+        String itemId = request.getParameter("itemId");
+        System.out.println(itemId);
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         //Statement statement = null;
         ResultSet resultset = null;
-        List<ItemRecord> cartList = (List<ItemRecord>) session.getAttribute("cartList");
-        List<ItemRecord> displayList = new ArrayList();
-        Integer customerId = 0;
-        Integer orderPrice = 0;
-        Integer orderPoints = 0;
-        Timestamp time = new Timestamp(System.currentTimeMillis());
-        String email = (String) session.getAttribute("email");
+//        List<ItemRecord> itemList = new ArrayList();
         try{
             connection = itemDB.getConnection();
-            preparedStatement = connection.prepareStatement("select * from customer c where c.email = ?");
-            preparedStatement.setString(1, email);
+            preparedStatement = connection.prepareStatement("select * from item i where i.itemId = ?");
+            preparedStatement.setString(1, itemId);
+//                preparedStatement.setString(2, password);
             resultset = preparedStatement.executeQuery();
+            int count = 0;
+            List<ItemRecord> cartList = (List<ItemRecord>) session.getAttribute("cartList");
+            if (cartList == null) {
+//                System.out.println("EmptyCart");
+                cartList = new ArrayList();
+            }
             while(resultset.next())
             {
-                customerId = resultset.getInt("customerId");
+                ItemRecord itm = new ItemRecord();
+                itm.setId(resultset.getInt("itemId"));
+                itm.setDesc(resultset.getString("itemDescription"));
+                itm.setBrand(resultset.getString("brand"));
+                itm.setPrice(resultset.getInt("price"));
+                itm.setPoints(resultset.getInt("points"));
+                cartList.add(itm);
             }
-            for (ItemRecord item: cartList) {
-                orderPrice += item.getPrice();
-                orderPoints += item.getPoints();
-                displayList.add(item);
-            }
-            preparedStatement = connection.prepareStatement("insert into orders (customerid,orderprice,orderpoints,timestamp) values (?,?,?,?)");
-            preparedStatement.setInt(1, customerId);
-            preparedStatement.setInt(2, orderPrice);
-            preparedStatement.setInt(3, orderPoints);
-            preparedStatement.setTimestamp(4, time);
-            preparedStatement.executeUpdate();
-
-            request.setAttribute("orderPrice", orderPrice);
-            request.setAttribute("orderPoints", orderPoints);
-            request.setAttribute("displayList", displayList);
-            cartList = new ArrayList();
+            
             session.setAttribute("cartList", cartList);
-            RequestDispatcher rd = request.getRequestDispatcher("/order_status.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/cart_display.jsp");
             rd.forward(request, response);
 
         }

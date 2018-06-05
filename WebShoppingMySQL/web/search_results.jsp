@@ -9,7 +9,7 @@
     </head>
     <script>
         function addToCart(itemId) {
-            window.location.href = "order?itemId="+itemId;
+            window.location.href = "addtocart?itemId="+itemId;
         }
     </script>
     <body>
@@ -54,6 +54,7 @@
         </p>
         <hr/>
         <a href="search.html">Do another search</a><br/>
-        <a href="index.html">Go back to menu</a>
+        <a href="addtocart">View Cart</a><br/>
+        <a href="main.jsp">Go back to menu</a>
     </body>
 </html>

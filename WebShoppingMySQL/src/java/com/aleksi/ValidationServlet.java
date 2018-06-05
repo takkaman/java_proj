@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import org.apache.commons.validator.EmailValidator;
 
@@ -86,7 +87,19 @@ public class ValidationServlet extends HttpServlet
                     RequestDispatcher rd = request.getRequestDispatcher("/register.html");
                     rd.forward(request, response);
                 } else {
+                    preparedStatement = connection.prepareStatement("insert into customer (fullname,email,addressline1,addressline2,postalcode,mobile,password) values (?,?,?,?,?,?,?)");
+                    preparedStatement.setString(1, name);
+                    preparedStatement.setString(2, email);
+                    preparedStatement.setString(3, addr1);
+                    preparedStatement.setString(4, addr2);
+                    preparedStatement.setString(5, postCode);
+                    preparedStatement.setString(6, phone);
+                    preparedStatement.setString(7, psw1);
+                    preparedStatement.executeUpdate();
+                    System.out.println("DB updated");
                     request.setAttribute("name", name);
+                    HttpSession session =request.getSession();
+                    session.setAttribute("email",email);
                     RequestDispatcher rd = request.getRequestDispatcher("/main.jsp");
                     rd.forward(request, response);
                 }

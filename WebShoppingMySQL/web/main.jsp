@@ -13,8 +13,8 @@
         <title>Shopping Main Page</title>
     </head>
     <body>
-        <% String email=(String)request.getAttribute("email"); %>
-        <p><% String username=(String)request.getAttribute("name"); %>
+        <% String email=(String)session.getAttribute("email"); %>
+        <p><% String username=(String)session.getAttribute("name"); %>
             Welcome! <%=username %>
         </p>
         <button onclick="window.location.href='search.html'"> Search a item </button>
@@ -22,6 +22,9 @@
             <input style="display:none" type="email" name="email" value="<%=email%>" required/><br/>
             <input type="submit" value="View Profile"/>
         </form>
+        <br/>
+        <button onclick="window.location.href='addtocart'"> View Cart </button>
+        <br/>
         <br/>
         <button onclick="window.location.href='index.html'"> Log Out </button>
     </body>
