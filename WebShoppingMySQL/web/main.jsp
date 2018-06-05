@@ -22,5 +22,7 @@
             <input style="display:none" type="email" name="email" value="<%=email%>" required/><br/>
             <input type="submit" value="View Profile"/>
         </form>
+        <br/>
+        <button onclick="window.location.href='index.html'"> Log Out </button>
     </body>
 </html>

@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
-@WebServlet("/search")
-public class SearchServlet extends HttpServlet
+@WebServlet("/order")
+public class OrderServlet extends HttpServlet
 {
     @Resource(name="jdbc/dexin")
     private DataSource itemDB;
@@ -36,8 +36,8 @@ public class SearchServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        String desc = request.getParameter("desc");
-        System.out.println(desc);
+        String itemId = request.getParameter("itemId");
+        System.out.println(itemId);
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         //Statement statement = null;
@@ -45,8 +45,8 @@ public class SearchServlet extends HttpServlet
         List<ItemRecord> itemList = new ArrayList();
         try{
             connection = itemDB.getConnection();
-            preparedStatement = connection.prepareStatement("select * from item i where i.itemDescription like ?");
-            preparedStatement.setString(1, '%'+desc+'%');
+            preparedStatement = connection.prepareStatement("select * from item i where i.itemId = ?");
+            preparedStatement.setString(1, itemId);
 //                preparedStatement.setString(2, password);
             resultset = preparedStatement.executeQuery();
             int count = 0;
@@ -63,7 +63,7 @@ public class SearchServlet extends HttpServlet
             
             HttpSession session =request.getSession();
             session.setAttribute("itemList", itemList);
-            RequestDispatcher rd = request.getRequestDispatcher("/search_results.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/cart_display.jsp");
             rd.forward(request, response);
 
         }
