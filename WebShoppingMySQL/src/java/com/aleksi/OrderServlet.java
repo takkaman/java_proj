@@ -96,7 +96,9 @@ public class OrderServlet extends HttpServlet
             request.setAttribute("displayMap", displayMap);
             // empty cart when checkout
             cartList = new ArrayList();
+            cartMap = new HashMap();
             session.setAttribute("cartList", cartList);
+            session.setAttribute("cartMap", cartMap);
             RequestDispatcher rd = request.getRequestDispatcher("/order_status.jsp");
             rd.forward(request, response);
 
