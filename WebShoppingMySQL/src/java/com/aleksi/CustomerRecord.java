@@ -8,14 +8,10 @@ package com.aleksi;
 import java.io.Serializable;
 
 /**
- * Registration Record stores a single set of information 
- * submitted by the user through the SimpleRegistration application
- * @author FlexTio
+ * Customer Record stores a single set of information 
  */ 
 public class CustomerRecord implements Serializable
 {
-    // Add your serial version UID here later
-//   private final long serialVersionUID = -1L;
    
     private String name;
     private String addr1;

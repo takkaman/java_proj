@@ -7,8 +7,10 @@ package com.aleksi;
  */
 
 /**
- *
- * @author phyan
+ * checkout items in carts and store order details into database 
+ * display total points earned and total price to pay
+ * after checkout, cart will be empty
+ * @author 
  */
 import java.io.IOException;
 import java.sql.Connection;
@@ -33,6 +35,7 @@ import javax.sql.DataSource;
 @WebServlet("/checkout")
 public class OrderServlet extends HttpServlet
 {
+    // connect to database
     @Resource(name="jdbc/dexin")
     private DataSource itemDB;
     @Override
@@ -45,11 +48,13 @@ public class OrderServlet extends HttpServlet
         PreparedStatement preparedStatement = null;
         //Statement statement = null;
         ResultSet resultset = null;
+        // cart related datastruct to store item information
         List<ItemRecord> cartList = (List<ItemRecord>) session.getAttribute("cartList");
         Map<Integer, Integer> cartMap = (Map<Integer, Integer>) session.getAttribute("cartMap");
         Map<Integer, ItemRecord> nameMap = (Map<Integer,ItemRecord>) session.getAttribute("nameMap");
         List<ItemRecord> displayList = new ArrayList();
         Map<Integer, Integer> displayMap = new HashMap();
+        // total price and total points
         Integer customerId = 0;
         Integer orderPrice = 0;
         Integer orderPoints = 0;
@@ -64,7 +69,8 @@ public class OrderServlet extends HttpServlet
             {
                 customerId = resultset.getInt("customerId");
             }
-            for (ItemRecord item: cartList) {
+            System.out.println("customerid "+customerId);
+            for (ItemRecord item: cartList) { // add item into display datastructure, not cart datastructure as cart info will be cleaned after forward
                 orderPrice += item.getPrice();
                 orderPoints += item.getPoints();
                 displayList.add(item);
@@ -74,6 +80,8 @@ public class OrderServlet extends HttpServlet
                     displayMap.put(item.getId(), 1);
                 }
             }
+
+            // update database, create new orderdetails record
             preparedStatement = connection.prepareStatement("insert into orders (customerid,orderprice,orderpoints,timestamp) values (?,?,?,?)");
             preparedStatement.setInt(1, customerId);
             preparedStatement.setInt(2, orderPrice);
@@ -81,10 +89,12 @@ public class OrderServlet extends HttpServlet
             preparedStatement.setTimestamp(4, time);
             preparedStatement.executeUpdate();
 
+            // store price, points, order summary for web display
             request.setAttribute("orderPrice", orderPrice);
             request.setAttribute("orderPoints", orderPoints);
             request.setAttribute("displayList", displayList);
             request.setAttribute("displayMap", displayMap);
+            // empty cart when checkout
             cartList = new ArrayList();
             session.setAttribute("cartList", cartList);
             RequestDispatcher rd = request.getRequestDispatcher("/order_status.jsp");

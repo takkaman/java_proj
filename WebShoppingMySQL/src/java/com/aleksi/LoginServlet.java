@@ -10,14 +10,13 @@ package com.aleksi;
  *
  * @author phyan
  */
-import java.awt.print.Book;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.annotation.Resource;
 import javax.servlet.RequestDispatcher;
@@ -39,12 +38,14 @@ public class LoginServlet extends HttpServlet
     {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        System.out.println(email + " " + password);
         String username = "";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         //Statement statement = null;
         ResultSet resultset = null;
         System.out.println(email + " " + password);
+        Map<Integer, Integer> cartMap = new HashMap();
         try{
             connection = itemDB.getConnection();
             preparedStatement = connection.prepareStatement("select * from customer c where c.email = ? and c.password = ?");
@@ -70,6 +71,7 @@ public class LoginServlet extends HttpServlet
                 HttpSession session =request.getSession();
                 session.setAttribute("email",email);
                 session.setAttribute("name",username);
+                session.setAttribute("cartMap", cartMap);
                 RequestDispatcher rd = request.getRequestDispatcher("/main.jsp");
                 rd.forward(request, response);
             }

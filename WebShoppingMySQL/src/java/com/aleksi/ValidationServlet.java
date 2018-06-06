@@ -15,6 +15,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -99,7 +101,10 @@ public class ValidationServlet extends HttpServlet
                     System.out.println("DB updated");
                     request.setAttribute("name", name);
                     HttpSession session =request.getSession();
+                    Map<Integer, Integer> cartMap = new HashMap();
                     session.setAttribute("email",email);
+                    session.setAttribute("name",name);
+                    session.setAttribute("cartMap", cartMap);
                     RequestDispatcher rd = request.getRequestDispatcher("/main.jsp");
                     rd.forward(request, response);
                 }

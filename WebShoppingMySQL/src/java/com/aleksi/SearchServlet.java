@@ -16,7 +16,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -52,6 +54,7 @@ public class SearchServlet extends HttpServlet
             int count = 0;
             while(resultset.next())
             {
+                System.out.println("Found record");
                 ItemRecord itm = new ItemRecord();
                 itm.setId(resultset.getInt("itemId"));
                 itm.setDesc(resultset.getString("itemDescription"));
@@ -62,6 +65,11 @@ public class SearchServlet extends HttpServlet
             }
             
             HttpSession session =request.getSession();
+            Map<Integer, Integer> cartMap = (Map<Integer, Integer>) session.getAttribute("cartMap");
+            if (cartMap == null) {
+                cartMap = new HashMap();
+                session.setAttribute("cartMap", cartMap);
+            }
             session.setAttribute("itemList", itemList);
             RequestDispatcher rd = request.getRequestDispatcher("/search_results.jsp");
             rd.forward(request, response);

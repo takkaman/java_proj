@@ -8,9 +8,7 @@ package com.aleksi;
 import java.io.Serializable;
 import java.sql.Timestamp;
 /**
- * Registration Record stores a single set of information 
- * submitted by the user through the SimpleRegistration application
- * @author FlexTio
+ * Order Record stores a single set of information 
  */ 
 public class OrderRecord implements Serializable
 {
