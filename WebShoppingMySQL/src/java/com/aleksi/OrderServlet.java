@@ -17,7 +17,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -44,7 +46,10 @@ public class OrderServlet extends HttpServlet
         //Statement statement = null;
         ResultSet resultset = null;
         List<ItemRecord> cartList = (List<ItemRecord>) session.getAttribute("cartList");
+        Map<Integer, Integer> cartMap = (Map<Integer, Integer>) session.getAttribute("cartMap");
+        Map<Integer, ItemRecord> nameMap = (Map<Integer,ItemRecord>) session.getAttribute("nameMap");
         List<ItemRecord> displayList = new ArrayList();
+        Map<Integer, Integer> displayMap = new HashMap();
         Integer customerId = 0;
         Integer orderPrice = 0;
         Integer orderPoints = 0;
@@ -63,6 +68,11 @@ public class OrderServlet extends HttpServlet
                 orderPrice += item.getPrice();
                 orderPoints += item.getPoints();
                 displayList.add(item);
+                if (displayMap.containsKey(item.getId())) {
+                    displayMap.put(item.getId(), displayMap.get(item.getId())+1);
+                } else {
+                    displayMap.put(item.getId(), 1);
+                }
             }
             preparedStatement = connection.prepareStatement("insert into orders (customerid,orderprice,orderpoints,timestamp) values (?,?,?,?)");
             preparedStatement.setInt(1, customerId);
@@ -74,6 +84,7 @@ public class OrderServlet extends HttpServlet
             request.setAttribute("orderPrice", orderPrice);
             request.setAttribute("orderPoints", orderPoints);
             request.setAttribute("displayList", displayList);
+            request.setAttribute("displayMap", displayMap);
             cartList = new ArrayList();
             session.setAttribute("cartList", cartList);
             RequestDispatcher rd = request.getRequestDispatcher("/order_status.jsp");

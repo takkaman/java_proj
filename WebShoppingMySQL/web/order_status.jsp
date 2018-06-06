@@ -1,4 +1,5 @@
 <%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@page import="com.aleksi.ItemRecord"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -27,9 +28,13 @@
             <tr><th>Desc</th><th>Brand</th><th>Price</th><th>Points</th></tr>
             
             <%
+                String name = (String) session.getAttribute("name");
                 Integer orderPrice = (Integer) request.getAttribute("orderPrice");
                 Integer orderPoints = (Integer) request.getAttribute("orderPoints");
                 List<ItemRecord> displayList = (List<ItemRecord>) request.getAttribute("displayList");
+                Map<Integer, Integer> cartMap = (Map<Integer, Integer>) session.getAttribute("cartMap");
+                Map<Integer, ItemRecord> nameMap = (Map<Integer, ItemRecord>) session.getAttribute("nameMap");
+                Map<Integer, Integer> displayMap = (Map<Integer, Integer>) request.getAttribute("displayMap");
                 if(displayList == null || displayList.size() <= 0)
                 {
             %>
@@ -38,15 +43,16 @@
                 }
                 else
                 {
-                    for(ItemRecord item : displayList)
+                    for(Integer itemId : displayMap.keySet())
                     {
+                        ItemRecord item = nameMap.get(itemId);
             %>
             <tr>
                 <!--<td style="display:none"></td>-->
                 <td><%=item.getDesc()%></td>
                 <td><%=item.getBrand()%></td>
                 <td><%=item.getPrice()%></td>
-                <td><%=item.getPoints()%></td>
+                <td><%=item.getPoints() * displayMap.get(itemId)%></td>
             </tr>
             <%
                     }
@@ -54,6 +60,7 @@
             %>
         </table>
         </p>
+        <p> Hello <%=name%> </p>
         <p> Total points earned: <%=orderPoints%></p>
         <p> Total price you need to pay: <%=orderPrice%></p>
         <!--<button onclick="window.location.href='/checkout'">Check Out</button>-->

@@ -1,4 +1,5 @@
 <%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@page import="com.aleksi.ItemRecord"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -26,6 +27,7 @@
         <table border="3">
             <tr><th>Desc</th><th>Brand</th><th>Price</th><th>Points</th><th>Action</th></tr>
             <%
+                Map<Integer, Integer> cartMap = (Map<Integer, Integer>) session.getAttribute("cartMap");
                 List<ItemRecord> itemList = (List<ItemRecord>) session.getAttribute("itemList");
                 if(itemList == null || itemList.size() <= 0)
                 {
@@ -44,7 +46,20 @@
                 <td><%=item.getBrand()%></td>
                 <td><%=item.getPrice()%></td>
                 <td><%=item.getPoints()%></td>
-                <td><button onclick="addToCart(<%=item.getId()%>);">add to cart</button></td>
+                <%
+                if (cartMap.containsKey(item.getId()) && cartMap.get(item.getId()) == 5)
+                {
+                    %>
+                    
+                    <td><button onclick="alert('Add fail! No more than 5 amount!');">add to cart</button></td>
+                    <%
+                } else {
+                    %>
+                    <td><button onclick="alert('Add success!');addToCart(<%=item.getId()%>);">add to cart</button></td>
+                    <%
+                }
+                %>
+                
             </tr>
             <%
                     }

@@ -1,4 +1,5 @@
 <%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@page import="com.aleksi.ItemRecord"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -24,8 +25,10 @@
         <p>-->
             <!--Results-->
         <table border="3">
-            <tr><th>Desc</th><th>Brand</th><th>Price</th><th>Points</th></tr>
+            <tr><th>Desc</th><th>Brand</th><th>Price</th><th>Points</th><th>Amount</th></tr>
             <%
+                Map<Integer, Integer> cartMap = (Map<Integer, Integer>) session.getAttribute("cartMap");
+                Map<Integer, ItemRecord> nameMap = (Map<Integer, ItemRecord>) session.getAttribute("nameMap");
                 List<ItemRecord> cartList = (List<ItemRecord>) session.getAttribute("cartList");
                 if(cartList == null || cartList.size() <= 0)
                 {
@@ -37,8 +40,9 @@
                 }
                 else
                 {
-                    for(ItemRecord item : cartList)
+                    for(Integer itemId : cartMap.keySet())
                     {
+                        ItemRecord item = nameMap.get(itemId);
             %>
             <tr>
                 <!--<td style="display:none"></td>-->
@@ -46,6 +50,7 @@
                 <td><%=item.getBrand()%></td>
                 <td><%=item.getPrice()%></td>
                 <td><%=item.getPoints()%></td>
+                <td><%=cartMap.get(itemId)%></td>
             </tr>
 
         
