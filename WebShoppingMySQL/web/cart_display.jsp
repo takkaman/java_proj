@@ -9,6 +9,7 @@
         <title>Online Shopping System - Add to Cart</title>
     </head>
     <script>
+        // back to CartServlet
         function addToCart(itemId) {
             window.location.href = "addtocart?itemId="+itemId;
         }
@@ -23,14 +24,15 @@
         </p>
         <hr/>
         <p>-->
-            <!--Results-->
+            <!--Search results-->
         <table border="3">
             <tr><th>Desc</th><th>Brand</th><th>Price</th><th>Points</th><th>Amount</th></tr>
             <%
+            // fetch existing cart info
                 Map<Integer, Integer> cartMap = (Map<Integer, Integer>) session.getAttribute("cartMap");
                 Map<Integer, ItemRecord> nameMap = (Map<Integer, ItemRecord>) session.getAttribute("nameMap");
                 List<ItemRecord> cartList = (List<ItemRecord>) session.getAttribute("cartList");
-                if(cartList == null || cartList.size() <= 0)
+                if(cartList == null || cartList.size() <= 0) // nothing in cart
                 {
             %>
             <tr><td colspan="6">(No result is found)</td></tr>        
@@ -58,13 +60,15 @@
                     }
                     %>
                             </table>
+                            <!-- checkout button -->
 <button onclick="window.location.href='checkout'">Check Out</button></p>
 <%
                 }
             %>
         <hr/>
-        
+        <!-- searcg again hyperlink -->
         <a href="search.html">Do another search</a><br/>
+        <!-- main menu link -->
         <a href="main.jsp">Go back to menu</a>
     </body>
 </html>

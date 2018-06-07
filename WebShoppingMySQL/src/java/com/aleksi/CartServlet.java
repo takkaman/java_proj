@@ -7,8 +7,11 @@ package com.aleksi;
  */
 
 /**
- *
- * @author phyan
+ * add to cart service
+ * if no cart, initialize empty cart
+ * if no parameter transfer, display existing cart
+ * if itemid transfer back, add item into existing cart, and display
+ * @author
  */
 import java.io.IOException;
 import java.sql.Connection;
@@ -39,6 +42,7 @@ public class CartServlet extends HttpServlet
             throws ServletException, IOException
     {
         HttpSession session =request.getSession();
+        // get item id from web
         String itemId = request.getParameter("itemId");
         System.out.println(itemId);
         Connection connection = null;
@@ -54,25 +58,36 @@ public class CartServlet extends HttpServlet
 //                preparedStatement.setString(2, password);
             resultset = preparedStatement.executeQuery();
             int count = 0;
+            // get current cart related information
+            // cart list, including all items
             List<ItemRecord> cartList = (List<ItemRecord>) session.getAttribute("cartList");
+            // cart map, map itemid - itemcount for later web display
             Map<Integer, Integer> cartMap = (Map<Integer, Integer>) session.getAttribute("cartMap");
+            // item name map, map itemid with real item object
             Map<Integer, ItemRecord> nameMap = (Map<Integer,ItemRecord>) session.getAttribute("nameMap");
+            // no cart before, initialize new empty cart
             if (cartList == null) {
 //                System.out.println("EmptyCart");
                 cartList = new ArrayList();
                 cartMap = new HashMap();
                 nameMap = new HashMap();
             }
+
+            // if there is item to add, do adding item into cart
             while(resultset.next())
             {
+                // initialize item instance
                 itm = new ItemRecord();
+                // set item related info
                 itm.setId(resultset.getInt("itemId"));
                 itm.setDesc(resultset.getString("itemDescription"));
                 itm.setBrand(resultset.getString("brand"));
                 itm.setPrice(resultset.getInt("price"));
                 itm.setPoints(resultset.getInt("points"));
                 System.out.println(itm.getDesc());
+                // add item into cart list
                 cartList.add(itm);
+                // add item into cart map
                 if (cartMap.containsKey(itm.getId())) {
                     cartMap.put(itm.getId(), cartMap.get(itm.getId())+1);
                 } else {
@@ -83,6 +98,7 @@ public class CartServlet extends HttpServlet
                 }
             }
             
+            // transfer latest item and cart related info to web
             session.setAttribute("cartList", cartList);
             session.setAttribute("cartMap", cartMap);
             session.setAttribute("nameMap", nameMap);

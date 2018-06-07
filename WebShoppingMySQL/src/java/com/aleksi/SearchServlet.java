@@ -7,8 +7,9 @@ package com.aleksi;
  */
 
 /**
- *
- * @author phyan
+ * search function
+ * input is item description, will do fuzzy match
+ * @author
  */
 import java.io.IOException;
 import java.sql.Connection;
@@ -38,15 +39,19 @@ public class SearchServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        // get item description from web
         String desc = request.getParameter("desc");
         System.out.println(desc);
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         //Statement statement = null;
         ResultSet resultset = null;
+        // initialize items list to store matched search result
         List<ItemRecord> itemList = new ArrayList();
         try{
+            // connect to db and do search in item table
             connection = itemDB.getConnection();
+            // do fuzzy match query
             preparedStatement = connection.prepareStatement("select * from item i where i.itemDescription like ?");
             preparedStatement.setString(1, '%'+desc+'%');
 //                preparedStatement.setString(2, password);
@@ -54,8 +59,11 @@ public class SearchServlet extends HttpServlet
             int count = 0;
             while(resultset.next())
             {
+                // add each searched item record into search list
                 System.out.println("Found record");
+                // initialize item instance
                 ItemRecord itm = new ItemRecord();
+                // add item info
                 itm.setId(resultset.getInt("itemId"));
                 itm.setDesc(resultset.getString("itemDescription"));
                 itm.setBrand(resultset.getString("brand"));
@@ -65,11 +73,14 @@ public class SearchServlet extends HttpServlet
             }
             
             HttpSession session =request.getSession();
+            // fetch existing cart info
             Map<Integer, Integer> cartMap = (Map<Integer, Integer>) session.getAttribute("cartMap");
+            // sanity check, at this moment cart might not be created, do creation to avoid abnormal issue
             if (cartMap == null) {
                 cartMap = new HashMap();
                 session.setAttribute("cartMap", cartMap);
             }
+            // send itemlist to web
             session.setAttribute("itemList", itemList);
             RequestDispatcher rd = request.getRequestDispatcher("/search_results.jsp");
             rd.forward(request, response);

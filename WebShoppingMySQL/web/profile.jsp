@@ -1,7 +1,7 @@
 <%-- 
-    Document   : results
+    Document   : profile record
     Created on : May 30, 2018, 10:24:08 AM
-    Author     : phyan
+    Author     : 
 --%>
 <%@page import="java.util.List"%>
 <%@page import="com.aleksi.CustomerRecord"%>
@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Personal Information</title>
     </head>
     <body>
         <p>
@@ -23,6 +23,7 @@
                 <th>Mobile</th>
             </tr>
             <!-- Insert your Scriptlets here -->
+            <!-- fetch user record instance -->
             <% CustomerRecord userRcd = (CustomerRecord) session.getAttribute("userRcd");%>
                 <tr>
                     <td><%=userRcd.getName()%></td>  

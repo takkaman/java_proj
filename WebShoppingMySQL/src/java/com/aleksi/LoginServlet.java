@@ -7,8 +7,9 @@ package com.aleksi;
  */
 
 /**
- *
- * @author phyan
+ * fetch user login info from web form and do login
+ * if email and password not match or no record found in database, return previous web page (login page)
+ * @author
  */
 import java.io.IOException;
 import java.sql.Connection;
@@ -36,6 +37,7 @@ public class LoginServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        // fetch email and password
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         System.out.println(email + " " + password);
@@ -45,8 +47,10 @@ public class LoginServlet extends HttpServlet
         //Statement statement = null;
         ResultSet resultset = null;
         System.out.println(email + " " + password);
+        // init log in will create empty cart
         Map<Integer, Integer> cartMap = new HashMap();
         try{
+            // connect to database and search in customer table
             connection = itemDB.getConnection();
             preparedStatement = connection.prepareStatement("select * from customer c where c.email = ? and c.password = ?");
             preparedStatement.setString(1, email);
@@ -58,14 +62,16 @@ public class LoginServlet extends HttpServlet
             int count = 0;
             while(resultset.next())
             {
+                // found user, get user name for later main page display
                 username = resultset.getString("fullname");
                 System.out.println(username);
                 count++;
             }
-            if (count == 0) { // 没有找到登录用户，返回登陆界面
+            if (count == 0) { // no user found, return previous login page
                 System.out.println("Not found user");
                 response.sendRedirect(this.getServletContext().getContextPath());
             } else {
+                // transfer user email to web for later order/checkout usage
                 request.setAttribute("name", username);
                 request.setAttribute("email", email);
                 HttpSession session =request.getSession();

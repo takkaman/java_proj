@@ -7,8 +7,11 @@ package com.aleksi;
  */
 
 /**
- *
- * @author phyan
+ * verify user register info
+ * email unique, postcode 6 digits, mobile 8 digits, psw1 and psw2 should match
+ * if pass verification, new customer record in database and forward to main page
+ * if fail verification, back to previous register page
+ * @author
  */
 import java.io.IOException;
 import java.sql.Connection;
@@ -37,6 +40,7 @@ public class ValidationServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        // fetch user register info from web form
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String addr1 = request.getParameter("addr1");
@@ -49,6 +53,7 @@ public class ValidationServlet extends HttpServlet
         PreparedStatement preparedStatement = null;
         //Statement statement = null;
         ResultSet resultset = null;
+        // do email verification
         EmailValidator emailValidator;
         emailValidator = EmailValidator.getInstance();
         if(!emailValidator.isValid(email)) {
@@ -57,23 +62,24 @@ public class ValidationServlet extends HttpServlet
             RequestDispatcher rd = request.getRequestDispatcher("/register.html");
             rd.forward(request, response);
         }
-        else if(psw1.compareTo(psw2) != 0) {
+        else if(psw1.compareTo(psw2) != 0) { // do password match verification
             System.out.println("psw not match");
             RequestDispatcher rd = request.getRequestDispatcher("/register.html");
             rd.forward(request, response);
         }
-        else if (!postCode.matches("[0-9]{6}")) {
+        else if (!postCode.matches("[0-9]{6}")) { // do postcode verification
             System.out.println("postcode not match");
             RequestDispatcher rd = request.getRequestDispatcher("/register.html");
             rd.forward(request, response);           
         }
-        else if (!phone.matches("[0-9]{8}")) {
+        else if (!phone.matches("[0-9]{8}")) { // do mobile verification
             System.out.println("phone not match");
             RequestDispatcher rd = request.getRequestDispatcher("/register.html");
             rd.forward(request, response);           
         }
         else {
             try{
+                // connect to database
                 connection = itemDB.getConnection();
                 preparedStatement = connection.prepareStatement("select * from customer c where c.email = ?");
                 preparedStatement.setString(1, email);
@@ -82,13 +88,16 @@ public class ValidationServlet extends HttpServlet
                 int count = 0;
                 while(resultset.next())
                 {
+                    // found existing email record in database, add count
                     count++;
                 }
                 if (count != 0) {
+                    // email should be unique, there's email with same name in existing table, rregister fail, back to previous page
                     System.out.println("email duplicated");
                     RequestDispatcher rd = request.getRequestDispatcher("/register.html");
                     rd.forward(request, response);
                 } else {
+                    // register info pass verification, insert new customer record into database
                     preparedStatement = connection.prepareStatement("insert into customer (fullname,email,addressline1,addressline2,postalcode,mobile,password) values (?,?,?,?,?,?,?)");
                     preparedStatement.setString(1, name);
                     preparedStatement.setString(2, email);
@@ -99,6 +108,7 @@ public class ValidationServlet extends HttpServlet
                     preparedStatement.setString(7, psw1);
                     preparedStatement.executeUpdate();
                     System.out.println("DB updated");
+                    // send user name and email to web
                     request.setAttribute("name", name);
                     HttpSession session =request.getSession();
                     Map<Integer, Integer> cartMap = new HashMap();

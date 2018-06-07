@@ -60,8 +60,10 @@ public class OrderServlet extends HttpServlet
         Integer orderPoints = 0;
         Timestamp time = new Timestamp(System.currentTimeMillis());
         String email = (String) session.getAttribute("email");
+        // connect database
         try{
             connection = itemDB.getConnection();
+            // select user via email
             preparedStatement = connection.prepareStatement("select * from customer c where c.email = ?");
             preparedStatement.setString(1, email);
             resultset = preparedStatement.executeQuery();
@@ -73,7 +75,9 @@ public class OrderServlet extends HttpServlet
             for (ItemRecord item: cartList) { // add item into display datastructure, not cart datastructure as cart info will be cleaned after forward
                 orderPrice += item.getPrice();
                 orderPoints += item.getPoints();
+                // update display item list
                 displayList.add(item);
+                // update display map, used to display item count
                 if (displayMap.containsKey(item.getId())) {
                     displayMap.put(item.getId(), displayMap.get(item.getId())+1);
                 } else {
