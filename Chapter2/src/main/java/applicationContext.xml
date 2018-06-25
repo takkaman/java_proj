@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<!-- 扫描包，应用注解 -->
+	<context:component-scan base-package="com.adam.dao" />
+	<context:component-scan base-package="com.adam.service" />
+
+	<!--定义一个jdbc数据源，创建一个驱动管理数据源的bean -->
+	<bean id="jdbcDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="dexin" />
+		<property name="username" value="root" />
+		<property name="password" value="1234" />
+	</bean>
+	<!-- 定义jdbc模板Bean -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+		p:dataSource-ref="jdbcDataSource" />
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="jdbcDataSource" />
+
+	<!-- 通过AOP配置事务增强，让service包下所有Bean的所有方法拥有事务 -->
+	<aop:config proxy-target-class="true">
+		<aop:pointcut expression="execution(* com.adam.service..*(..))"
+			id="serviceMethod" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod" />
+	</aop:config>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*"></tx:method>
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
+</beans>
